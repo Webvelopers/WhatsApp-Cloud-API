@@ -17,6 +17,16 @@ class WhatsAppCloudAPI
     protected WhatsAppCloudAPIApp $app;
 
     /**
+     * @var Client The WhatsApp Cloud Api client service.
+     */
+    protected Client $client;
+
+    /**
+     * @var int The WhatsApp Cloud Api client timeout.
+     */
+    protected ?int $timeout;
+
+    /**
      * Instantiates a new WhatsAppCloudAPI super-class object.
      */
     public function __construct(array $config)
@@ -28,6 +38,7 @@ class WhatsAppCloudAPI
         ], $config);
 
         $this->app = new WhatsAppCloudAPIApp($config['phone_number_id'], $config['access_token']);
+        $this->client = new Client($config['graph_version']);
     }
 
     /**
@@ -55,7 +66,7 @@ class WhatsAppCloudAPI
         $request = new Request\MessageRequest\RequestTextMessage(
             $message,
             $this->app->accessToken(),
-            $this->app->fromPhoneNumberId(),
+            $this->app->phoneNumberId(),
             $this->timeout
         );
 

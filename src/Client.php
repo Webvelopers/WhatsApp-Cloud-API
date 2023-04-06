@@ -2,7 +2,9 @@
 
 namespace Webvelopers\WhatsAppCloudAPI;
 
-use Netflie\WhatsAppCloudApi\Http\GuzzleClientHandler;
+use Webvelopers\WhatsAppCloudAPI\Http\ClientHandler;
+use Webvelopers\WhatsAppCloudAPI\Http\GuzzleClientHandler;
+use Webvelopers\WhatsAppCloudAPI\Request\RequestWithBody;
 
 class Client
 {
@@ -27,16 +29,14 @@ class Client
     public function __construct(string $graph_version)
     {
         $this->graph_version = $graph_version;
+
+        $this->handler = $this->defaultHandler();
     }
 
     /**
      * Send a message request to.
-     *
-     * @return Response Raw response from the server.
-     *
-     * @throws Netflie\WhatsAppCloudApi\Response\ResponseException
      */
-    public function sendMessage(Request\RequestWithBody $request): Response
+    public function sendMessage(RequestWithBody $request): Response
     {
         $raw_response = $this->handler->postJsonData(
             $this->buildRequestUri($request->nodePath()),
@@ -61,10 +61,6 @@ class Client
 
     /**
      * Upload a media file to Facebook servers.
-     *
-     * @return Response Raw response from the server.
-     *
-     * @throws Netflie\WhatsAppCloudApi\Response\ResponseException
      */
     public function uploadMedia(Request\MediaRequest\UploadMediaRequest $request): Response
     {
@@ -91,10 +87,6 @@ class Client
 
     /**
      * Download a media file from Facebook servers.
-     *
-     * @return Response Raw response from the server.
-     *
-     * @throws Netflie\WhatsAppCloudApi\Response\ResponseException
      */
     public function downloadMedia(Request\MediaRequest\DownloadMediaRequest $request): Response
     {
@@ -122,16 +114,25 @@ class Client
         return $return_response;
     }
 
+    /**
+     *
+     */
     private function defaultHandler(): ClientHandler
     {
         return new GuzzleClientHandler();
     }
 
+    /**
+     *
+     */
     private function buildBaseUri(): string
     {
         return self::BASE_GRAPH_URL . '/' . $this->graph_version;
     }
 
+    /**
+     *
+     */
     private function buildRequestUri(string $node_path): string
     {
         return $this->buildBaseUri() . '/' . $node_path;
