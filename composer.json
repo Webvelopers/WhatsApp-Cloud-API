@@ -1,0 +1,40 @@
+{
+    "name": "webvelopers/whatsapp-cloud-api",
+    "authors": [{
+        "name": "Webvelopers, Inc.",
+        "email": "webmaster@webvelopers.net"
+    }],
+    "type": "library",
+    "description": "WhatsApp Cloud API is a free library, this package makes it easy for developers to access WhatsApp Cloud API service in their Laravel projects.",
+    "keywords": [
+        "library",
+        "laravel",
+        "WhatsApp",
+        "WhatsApp Cloud API",
+        "Facebook",
+        "META"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.3|^8.0|^8.1",
+        "illuminate/testing": "^10.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0.19"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webvelopers\\WhatsAppCloudAPI\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webvelopers\\WhatsAppCloudAPI\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
