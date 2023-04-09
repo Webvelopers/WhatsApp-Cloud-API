@@ -3,28 +3,20 @@
 namespace Webvelopers\WhatsAppCloudAPI;
 
 use Webvelopers\WhatsAppCloudAPI\Message\TextMessage;
+use Webvelopers\WhatsAppCloudAPI\Request\TextMessageRequest;
+use Webvelopers\WhatsAppCloudAPI\Response;
 
 class WhatsAppCloudAPI
 {
     /**
-     * @const string Default Graph API version.
+     * @var App The WhatsApp Cloud API App entity.
      */
-    public const DEFAULT_GRAPH_VERSION = 'v16.0';
+    protected App $app;
 
     /**
-     * @var WhatsAppCloudAPIApp The WhatsAppCloudApiApp entity.
-     */
-    protected WhatsAppCloudAPIApp $app;
-
-    /**
-     * @var Client The WhatsApp Cloud Api client service.
+     * @var Client The WhatsApp Cloud API client service.
      */
     protected Client $client;
-
-    /**
-     * @var int The WhatsApp Cloud Api client timeout.
-     */
-    protected ?int $timeout;
 
     /**
      * Instantiates a new WhatsAppCloudAPI super-class object.
@@ -32,29 +24,18 @@ class WhatsAppCloudAPI
     public function __construct(array $config)
     {
         $config = array_merge([
-            'phone_number_id' => null,
+            // App
             'access_token' => '',
-            'graph_version' => static::DEFAULT_GRAPH_VERSION
+            // Client
+            'from_phone_number_id' => null,
+            'graph_url' => null,
+            'graph_version' => null,
+            'message_path' => null,
+            'timeout' => null,
         ], $config);
 
-        $this->app = new WhatsAppCloudAPIApp($config['phone_number_id'], $config['access_token']);
-        $this->client = new Client($config['graph_version']);
-    }
-
-    /**
-     * Returns the WhatsApp Access Token.
-     */
-    public function accessToken(): string
-    {
-        return $this->app->accessToken();
-    }
-
-    /**
-     * Returns the WhatsApp Phone Number ID.
-     */
-    public function phoneNumberId(): string
-    {
-        return $this->app->phoneNumberId();
+        $this->app = new App($config['access_token']);
+        $this->client = new Client($config['from_phone_number_id'], $config['graph_url'], $config['graph_version'], $config['message_path'], $config['timeout']);
     }
 
     /**
@@ -62,15 +43,12 @@ class WhatsAppCloudAPI
      */
     public function sendTextMessage(string $to, string $text, bool $preview_url = false): Response
     {
-        $message = new TextMessage($to, $text, $preview_url);
-        $request = new Request\MessageRequest\RequestTextMessage(
-            $message,
-            $this->app->accessToken(),
-            $this->app->phoneNumberId(),
-            $this->timeout
+        $textMessage = new TextMessage($to, $text, $preview_url);
+        $textMessageRequest = new TextMessageRequest(
+            $textMessage,
+            $this->app->accessToken()
         );
 
-        return $this->client->sendMessage($request);
+        return $this->client->sendTextMessage($textMessageRequest);
     }
-
 }

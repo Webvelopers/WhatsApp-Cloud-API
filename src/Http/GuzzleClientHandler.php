@@ -10,7 +10,7 @@ final class GuzzleClientHandler implements ClientHandler
     /**
      * @var \GuzzleHttp\Client The Guzzle client.
      */
-    private $guzzle_client;
+    private Client $guzzle_client;
 
     /**
      *
@@ -22,37 +22,10 @@ final class GuzzleClientHandler implements ClientHandler
 
     /**
      *
-     *
      */
-    public function postJsonData(string $url, array $body, array $headers, int $timeout): RawResponse
+    public function postJsonData(string $url, array $headers, array $body): RawResponse
     {
-        $raw_handler_response = $this->post($url, $body, 'json', $headers, $timeout);
-
-        return $this->buildResponse($raw_handler_response);
-    }
-
-    /**
-     *
-     *
-     */
-    public function postFormData(string $url, array $form, array $headers, int $timeout): RawResponse
-    {
-        $raw_handler_response = $this->post($url, $form, 'multipart', $headers, $timeout);
-
-        return $this->buildResponse($raw_handler_response);
-    }
-
-    /**
-     *
-     *
-     */
-    public function get(string $url, array $headers, int $timeout): RawResponse
-    {
-        $raw_handler_response = $this->guzzle_client->get($url, [
-            'headers' => $headers,
-            'timeout' => $timeout,
-            'http_errors' => false,
-        ]);
+        $raw_handler_response = $this->post($url, $headers, 'json', $body);
 
         return $this->buildResponse($raw_handler_response);
     }
@@ -60,12 +33,11 @@ final class GuzzleClientHandler implements ClientHandler
     /**
      *
      */
-    protected function post(string $url, array $data, string $data_type, array $headers, int $timeout): ResponseInterface
+    protected function post(string $url, array $headers, string $data_type, array $data): ResponseInterface
     {
         return $this->guzzle_client->post($url, [
-            $data_type => $data,
             'headers' => $headers,
-            'timeout' => $timeout,
+            $data_type => $data,
             'http_errors' => false,
         ]);
     }

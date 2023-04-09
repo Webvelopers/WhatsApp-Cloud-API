@@ -2,12 +2,19 @@
 
 namespace Webvelopers\WhatsAppCloudAPI\Message;
 
-final class TextMessage extends Message
+use Webvelopers\WhatsAppCloudAPI\Message as MessageBase;
+
+final class TextMessage extends MessageBase
 {
     /**
-     * @const int Maximum length for body message.
+     * @const int Default Maximum length.
      */
-    private const MAXIMUM_LENGTH = 4096;
+    private const DEFAULT_MAXIMUM_LENGTH = 4096;
+
+    /**
+    * @var int The Maximum length.
+    */
+    protected int $maximum_length;
 
     /**
     * @var string The type message.
@@ -15,51 +22,28 @@ final class TextMessage extends Message
     protected string $type = 'text';
 
     /**
-     * @var string The body of the text message.
-     */
-    private string $text;
-
-    /**
-     * @var bool Determines if show a preview box for URLs contained in the text message.
-     */
-    private bool $preview_url;
-
-    /**
      * Creates a new message of type text.
      */
-    public function __construct(string $to, string $text, bool $preview_url = false)
+    public function __construct(string $to, string $text, bool $preview_url = false, ?int $maximum_length = null)
     {
-        $this->assertTextIsValid($text);
+        $this->maximum_length = $maximum_length ?? self::DEFAULT_MAXIMUM_LENGTH;
+        $this->validate($text);
 
-        $this->text = $text;
-        $this->preview_url = $preview_url;
+        $this->object = [
+            "preview_url" => $preview_url,
+            "body" => $text,
+        ];
 
         parent::__construct($to);
     }
 
     /**
-     * Return the body of the text message.
+     * Validates maximum length text.
      */
-    public function text(): string
+    private function validate(string $text): void
     {
-        return $this->text;
-    }
-
-    /**
-     * Return if preview box for URLs contained in the text message is shown.
-     */
-    public function previewUrl(): bool
-    {
-        return $this->preview_url;
-    }
-
-    /**
-     * Assert Text format valid
-     */
-    private function assertTextIsValid(string $text): void
-    {
-        if (strlen($text) > self::MAXIMUM_LENGTH) {
-            throw new \LengthException(__('The maximun length for a message text is :maximum_length characters', ['maximum_length' => self::MAXIMUM_LENGTH]));
+        if (strlen($text) > $this->maximum_length) {
+            throw new \LengthException(__('The maximun length for a message text is :maximum_length characters', ['maximum_length' => $this->maximum_length]));
         }
     }
 }

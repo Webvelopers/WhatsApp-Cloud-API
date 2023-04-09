@@ -2,61 +2,15 @@
 
 namespace Webvelopers\WhatsAppCloudAPI;
 
+use Webvelopers\WhatsAppCloudAPI\Exception\ResponseException;
 use Webvelopers\WhatsAppCloudAPI\Http\RawResponse;
-use Webvelopers\WhatsAppCloudAPI\Response\ResponseException;
 
 class Response
 {
     /**
-     * @var int The HTTP status code response from Graph.
-     */
-    protected int $http_status_code;
-
-    /**
-     * @var array The headers returned from Graph.
-     */
-    protected array $headers;
-
-    /**
-     * @var string The raw body of the response from Graph.
-     */
-    protected string $body;
-
-    /**
-     * @var array The decoded body of the Graph response.
-     */
-    protected array $decoded_body = [];
-
-    /**
      * @var Request The original request that returned this response.
      */
     protected Request $request;
-
-    /**
-     * Creates a new Response entity.
-     */
-    public function __construct(Request $request, string $body, ?int $http_status_code = null, array $headers = [])
-    {
-        $this->request = $request;
-        $this->body = $body;
-        $this->http_status_code = $http_status_code;
-        $this->headers = $headers;
-
-        $this->decodeBody();
-    }
-
-    /**
-     *
-     */
-    public static function fromClientResponse(Request $request, RawResponse $response): self
-    {
-        return new self(
-            $request,
-            $response->body(),
-            $response->httpResponseCode(),
-            $response->headers()
-        );
-    }
 
     /**
      * Return the original request that returned this response.
@@ -67,28 +21,9 @@ class Response
     }
 
     /**
-     * Return the access token that was used for this response.
+     * @var string The raw body of the response from Graph.
      */
-    public function accessToken(): string
-    {
-        return $this->request->accessToken();
-    }
-
-    /**
-     * Return the HTTP status code for this response.
-     */
-    public function httpStatusCode(): int
-    {
-        return $this->http_status_code;
-    }
-
-    /**
-     * Return the HTTP headers for this response.
-     */
-    public function headers(): array
-    {
-        return $this->headers;
-    }
+    protected string $body;
 
     /**
      * Return the raw body response.
@@ -99,11 +34,84 @@ class Response
     }
 
     /**
+     * @var array The decoded body of the Graph response.
+     */
+    protected array $decoded_body = [];
+
+    /**
      * Return the decoded body response.
      */
     public function decodedBody(): array
     {
         return $this->decoded_body;
+    }
+
+    /**
+     * @var array The headers returned from Graph.
+     */
+    protected array $headers;
+
+    /**
+     * Return the HTTP headers for this response.
+     */
+    public function headers(): array
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @var int The HTTP status code response from Graph.
+     */
+    protected int $http_status_code;
+
+    /**
+     * Return the HTTP status code for this response.
+     */
+    public function httpStatusCode(): int
+    {
+        return $this->http_status_code;
+    }
+
+    /**
+     * Creates a new Response entity.
+     */
+    public function __construct(Request $request, array $headers = [], string $body, int $http_status_code = 0)
+    {
+        $this->request = $request;
+        $this->headers = $headers;
+        $this->body = $body;
+        $this->http_status_code = $http_status_code;
+
+        $this->decodeBody();
+    }
+
+    /**
+     * Convert the raw response into an array if possible.
+     */
+    public function decodeBody(): void
+    {
+        $this->decoded_body = json_decode($this->body, true) ?? [];
+    }
+
+    /**
+     *
+     */
+    public static function fromClientResponse(Request $request, RawResponse $response): self
+    {
+        return new self(
+            $request,
+            $response->headers(),
+            $response->body(),
+            $response->httpResponseCode()
+        );
+    }
+
+    /**
+     * Return the access token that was used for this response.
+     */
+    public function accessToken(): string
+    {
+        return $this->request->accessToken();
     }
 
     /**
@@ -128,13 +136,5 @@ class Response
     public function throwException()
     {
         throw new ResponseException($this);
-    }
-
-    /**
-     * Convert the raw response into an array if possible.
-     */
-    public function decodeBody(): void
-    {
-        $this->decoded_body = json_decode($this->body, true) ?? [];
     }
 }

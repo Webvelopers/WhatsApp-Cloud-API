@@ -9,7 +9,7 @@ namespace Webvelopers\WhatsAppCloudAPI;
 class WebHook
 {
     /**
-     * A string in the Verify Token field
+     * A string in the Client Token
      */
     protected string $verify_token;
 
