@@ -111,7 +111,7 @@ class Client
         );
 
         if ($return_response->isError()) {
-            $return_response->throwException();
+            //$return_response->throwException();
         }
 
         return $return_response;
