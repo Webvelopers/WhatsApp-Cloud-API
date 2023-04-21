@@ -1,0 +1,54 @@
+<?php
+
+namespace Webvelopers\WhatsAppCloudApi\Message\OptionsList;
+
+/**
+ * 
+ */
+class Section
+{
+    /**
+     * 
+     */
+    protected string $title;
+
+    /**
+     * 
+     */
+    protected array $rows;
+
+    /**
+     * 
+     */
+    public function __construct(string $title, array $rows)
+    {
+        $this->title = $title;
+        $this->rows = $rows;
+    }
+
+    /**
+     * 
+     */
+    public function title(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * 
+     */
+    public function rows(): array
+    {
+        $result = [];
+
+        foreach ($this->rows as $row) {
+            $result[] = [
+                'id' => $row->id(),
+                'title' => $row->title(),
+                'description' => $row->description() ?: null,
+            ];
+        }
+
+        return $result;
+    }
+}

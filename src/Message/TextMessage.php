@@ -1,49 +1,67 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudAPI\Message;
+namespace Webvelopers\WhatsAppCloudApi\Message;
 
-use Webvelopers\WhatsAppCloudAPI\Message as MessageBase;
-
-final class TextMessage extends MessageBase
+/**
+ *
+ */
+final class TextMessage extends Message
 {
     /**
-     * @const int Default Maximum length.
+     * @const int Maximum length for body message.
      */
-    private const DEFAULT_MAXIMUM_LENGTH = 4096;
+    private const MAXIMUM_LENGTH = 4096;
 
     /**
-    * @var int The Maximum length.
-    */
-    protected int $maximum_length;
-
-    /**
-    * @var string The type message.
-    */
+     *
+     */
     protected string $type = 'text';
+
+    /**
+     *
+     */
+    private string $text;
+
+    /**
+     *
+     */
+    private bool $preview_url;
 
     /**
      * Creates a new message of type text.
      */
-    public function __construct(string $to, string $text, bool $preview_url = false, ?int $maximum_length = null)
+    public function __construct(string $to, string $text, bool $preview_url = false)
     {
-        $this->maximum_length = $maximum_length ?? self::DEFAULT_MAXIMUM_LENGTH;
-        $this->validate($text);
+        $this->assertTextIsValid($text);
 
-        $this->object = [
-            "preview_url" => $preview_url,
-            "body" => $text,
-        ];
+        $this->text = $text;
+        $this->preview_url = $preview_url;
 
         parent::__construct($to);
     }
 
     /**
-     * Validates maximum length text.
+     * Return the body of the text message.
      */
-    private function validate(string $text): void
+    public function text(): string
     {
-        if (strlen($text) > $this->maximum_length) {
-            throw new \LengthException(__('The maximun length for a message text is :maximum_length characters', ['maximum_length' => $this->maximum_length]));
-        }
+        return $this->text;
+    }
+
+    /**
+     * Return if preview box for URLs contained in the text message is shown.
+     */
+    public function previewUrl(): bool
+    {
+        return $this->preview_url;
+    }
+
+    /**
+     *
+     */
+    private function assertTextIsValid(string $text): void
+    {
+        if (strlen($text) > self::MAXIMUM_LENGTH)
+            throw new \LengthException(__('whatsapp.maximum_length', ['value' => self::MAXIMUM_LENGTH]));
     }
 }

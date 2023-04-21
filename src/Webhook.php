@@ -1,59 +1,29 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudAPI;
+namespace Webvelopers\WhatsAppCloudApi;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Webvelopers\WhatsAppCloudApi\WebHook\Notification;
+use Webvelopers\WhatsAppCloudApi\WebHook\NotificationFactory;
+use Webvelopers\WhatsAppCloudApi\WebHook\VerificationRequest;
 
 /**
- * Verify Token field configured in your app's App Dashboard.
- * @link https://developers.facebook.com/docs/graph-api/webhooks/getting-started?locale=en_US#configure-webhooks-product
+ *
  */
 class WebHook
 {
     /**
-     * Error message
+     * Verify a webhook anytime you configure a new one in your App Dashboard.
      */
-    private $error = [
-        "message" => "Unauthenticated."
-    ];
-
-    /**
-     * A string in the Client Token
-     */
-    protected string $verify_token;
-
-    /**
-     * Instantiates a new WebHook object.
-     */
-    public function __construct(string $verify_token)
+    public function verify(array $payload, ?string $verify_token = null): string
     {
-        $this->verify_token = $verify_token;
+        return (new VerificationRequest($verify_token))->validate($payload);
     }
 
     /**
-     * Verify a webhook anytime you configure a new one in your Meta App Dashboard.
+     * Get a notification from incoming webhook messages.
      */
-    public function verify(array $payload): mixed
+    public function read(array $payload): ?Notification
     {
-        $now = now();
-        $timestamp = $now->timestamp . $now->milli;
-        Storage::disk('verify')->put($timestamp . '.json', json_encode($payload));
-
-        $hub_mode = $payload['hub_mode'] ?? null;
-        $hub_verify_token = $payload['hub_verify_token'] ?? null;
-        $hub_challenge = $payload['hub_challenge'] ?? '';
-
-        if ($hub_mode !== 'subscribe' || $hub_verify_token !== $this->verify_token) {
-            Log::error("WhatsApp Webhook Verify $timestamp:", json_encode($this->error()));
-            return response()->json($this->error(), 401);
-        }
-
-        return $hub_challenge;
-    }
-
-    private function error(): array
-    {
-        return $this->error;
+        return (new NotificationFactory())->buildFromPayload($payload);
     }
 }

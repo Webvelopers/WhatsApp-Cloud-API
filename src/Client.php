@@ -1,119 +1,176 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudAPI;
+namespace Webvelopers\WhatsAppCloudApi;
 
-use Webvelopers\WhatsAppCloudAPI\Http\ClientHandler;
-use Webvelopers\WhatsAppCloudAPI\Http\GuzzleClientHandler;
-use Webvelopers\WhatsAppCloudAPI\Request\TextMessageRequest;
+use Webvelopers\WhatsAppCloudApi\Http\ClientHandler;
+use Webvelopers\WhatsAppCloudApi\Http\GuzzleClientHandler;
+use Webvelopers\WhatsAppCloudApi\Request\RequestWithBody;
+use Webvelopers\WhatsAppCloudApi\Request\MediaRequest\DownloadMediaRequest;
+use Webvelopers\WhatsAppCloudApi\Request\MediaRequest\UploadMediaRequest;
 
+/**
+ *
+ */
 class Client
 {
     /**
-     * @const string Default Graph URL.
+     * @const string Production Graph API URL.
      */
-    public const DEFAULT_GRAPH_URL = 'https://graph.facebook.com';
+    public const GRAPH_URL = 'https://graph.facebook.com';
 
     /**
-     * @const string Default Graph version.
+     * @const string Default Graph API version.
      */
-    public const DEFAULT_GRAPH_VERSION = 'v16.0';
+    public const GRAPH_VERSION = 'v16.0';
 
     /**
-     * @const string Default Message Path.
-     */
-    public const DEFAULT_MESSAGE_PATH = 'messages';
-
-    /**
-     * @const int Default Timeout.
-     */
-    public const DEFAULT_TIMEOUT = 300; // 5 mins.
-
-    /**
-     * @var string Graph URL.
+     *
      */
     protected string $graph_url;
 
     /**
-     * @var string Graph Version.
+     *
      */
     protected string $graph_version;
 
     /**
-     * @var string Message Path.
-     */
-    protected string $message_path;
-
-    /**
-     * @var int MTimeout.
-     */
-    protected int $timeout;
-
-    /**
-     * @var string From Phone Number ID.
-     */
-    protected string $from_phone_number_id;
-
-    /**
-     * @var ClientHandler The HTTP client handler to send the request.
+     *
      */
     protected ClientHandler $handler;
 
     /**
-     * @var string URL.
-     */
-    protected string $url;
-
-    /**
-     * Gets URL value.
-     */
-    public function url()
-    {
-        return $this->url;
-    }
-
-    /**
      * Creates a new HTTP Client.
      */
-    public function __construct(string $from_phone_number_id, ?string $graph_url = null, ?string $graph_version = null, ?string $message_path = null, ?int $timeout = null)
+    public function __construct(?string $graph_url = null, ?string $graph_version = null, ?ClientHandler $handler = null)
     {
-        $this->from_phone_number_id = $from_phone_number_id;
-        $this->graph_url = $graph_url ?? self::DEFAULT_GRAPH_URL;
-        $this->graph_version = $graph_version ?? self::DEFAULT_GRAPH_VERSION;
-        $this->message_path = $message_path ?? self::DEFAULT_MESSAGE_PATH;
-        $this->timeout = $timeout ?? self::DEFAULT_TIMEOUT;
-
-        $this->url = implode('/', [
-            $this->graph_url,
-            $this->graph_version,
-            $this->from_phone_number_id,
-            $this->message_path,
-        ]);
-
-        $this->handler = new GuzzleClientHandler();
+        $this->graph_url = $graph_url ?? env('WHATSAPP_CLOUD_API_GRAPH_URL', self::GRAPH_URL);
+        $this->graph_version = $graph_version ?? env('WHATSAPP_CLOUD_API_GRAPH_VERSION', self::GRAPH_VERSION);
+        $this->handler = $handler ?? $this->defaultHandler();
     }
 
     /**
      * Send a message request to.
+     *
+     * @throws Webvelopers\WhatsAppCloudApi\Response\ResponseException
      */
-    public function sendTextMessage(TextMessageRequest $request): Response
+    public function sendMessage(RequestWithBody $request): Response
     {
         $raw_response = $this->handler->postJsonData(
-            $this->url(),
+            $this->buildRequestUri($request->nodePath()),
+            $request->body(),
             $request->headers(),
-            $request->body()
+            $request->timeout()
         );
 
         $return_response = new Response(
             $request,
-            $raw_response->headers(),
             $raw_response->body(),
-            $raw_response->httpResponseCode()
+            $raw_response->httpResponseCode(),
+            $raw_response->headers()
         );
 
         if ($return_response->isError()) {
-            //$return_response->throwException();
+            $return_response->throwException();
         }
 
         return $return_response;
+    }
+
+    /**
+     * Upload a media file to Facebook servers.
+     *
+     * @throws Webvelopers\WhatsAppCloudApi\Response\ResponseException
+     */
+    public function uploadMedia(UploadMediaRequest $request): Response
+    {
+        $raw_response = $this->handler->postFormData(
+            $this->buildRequestUri($request->nodePath()),
+            $request->form(),
+            $request->headers(),
+            $request->timeout()
+        );
+
+        $return_response = new Response(
+            $request,
+            $raw_response->body(),
+            $raw_response->httpResponseCode(),
+            $raw_response->headers()
+        );
+
+        if ($return_response->isError()) {
+            $return_response->throwException();
+        }
+
+        return $return_response;
+    }
+
+    /**
+     * Download a media file from Facebook servers.
+     *
+     * @throws Webvelopers\WhatsAppCloudApi\Response\ResponseException
+     */
+    public function downloadMedia(DownloadMediaRequest $request): Response
+    {
+        $raw_response = $this->handler->get(
+            $this->buildRequestUri($request->nodePath()),
+            $request->headers(),
+            $request->timeout()
+        );
+
+        $response = Response::fromClientResponse($request, $raw_response);
+        $media_url = $response->decodedBody()['url'];
+
+        $raw_response = $this->handler->get(
+            $media_url,
+            $request->headers(),
+            $request->timeout()
+        );
+
+        $return_response = Response::fromClientResponse($request, $raw_response);
+
+        if ($return_response->isError())
+            $return_response->throwException();
+
+        return $return_response;
+    }
+
+    /**
+     *
+     */
+    private function defaultHandler(): ClientHandler
+    {
+        return new GuzzleClientHandler();
+    }
+
+    /**
+     *
+     */
+    private function buildBaseUri(): string
+    {
+        return "$this->graph_url/$this->graph_version/";
+    }
+
+    /**
+     *
+     */
+    private function buildRequestUri(string $node_path): string
+    {
+        return $this->buildBaseUri() . $node_path;
+    }
+
+    /**
+     * Returns the Graph Url.
+     */
+    public function graphUrl(): string
+    {
+        return $this->graph_url;
+    }
+
+    /**
+     * Returns the Graph Version.
+     */
+    public function graphVersion(): string
+    {
+        return $this->graph_version;
     }
 }

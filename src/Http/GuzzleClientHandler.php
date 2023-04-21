@@ -1,31 +1,34 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudAPI\Http;
+namespace Webvelopers\WhatsAppCloudApi\Http;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ *
+ */
 final class GuzzleClientHandler implements ClientHandler
 {
     /**
-     * @var \GuzzleHttp\Client The Guzzle client.
+     *
      */
-    private Client $guzzle_client;
+    private $guzzle_client;
 
     /**
      *
      */
-    public function __construct()
+    public function __construct(?Client $guzzle_client = null)
     {
-        $this->guzzle_client = new Client();
+        $this->guzzle_client = $guzzle_client ?: new Client();
     }
 
     /**
      *
      */
-    public function postJsonData(string $url, array $headers, array $body): RawResponse
+    public function postJsonData(string $url, array $body, array $headers, int $timeout): RawResponse
     {
-        $raw_handler_response = $this->post($url, $headers, 'json', $body);
+        $raw_handler_response = $this->post($url, $body, 'json', $headers, $timeout);
 
         return $this->buildResponse($raw_handler_response);
     }
@@ -33,11 +36,36 @@ final class GuzzleClientHandler implements ClientHandler
     /**
      *
      */
-    protected function post(string $url, array $headers, string $data_type, array $data): ResponseInterface
+    public function postFormData(string $url, array $form, array $headers, int $timeout): RawResponse
+    {
+        $raw_handler_response = $this->post($url, $form, 'multipart', $headers, $timeout);
+
+        return $this->buildResponse($raw_handler_response);
+    }
+
+    /**
+     *
+     */
+    public function get(string $url, array $headers, int $timeout): RawResponse
+    {
+        $raw_handler_response = $this->guzzle_client->get($url, [
+            'headers' => $headers,
+            'timeout' => $timeout,
+            'http_errors' => false,
+        ]);
+
+        return $this->buildResponse($raw_handler_response);
+    }
+
+    /**
+     *
+     */
+    protected function post(string $url, array $data, string $data_type, array $headers, int $timeout): ResponseInterface
     {
         return $this->guzzle_client->post($url, [
-            'headers' => $headers,
             $data_type => $data,
+            'headers' => $headers,
+            'timeout' => $timeout,
             'http_errors' => false,
         ]);
     }
