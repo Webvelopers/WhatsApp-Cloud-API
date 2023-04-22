@@ -5,37 +5,37 @@ namespace Webvelopers\WhatsAppCloudApi\WebHook;
 use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Business;
 
 /**
- * 
+ *
  */
 abstract class Notification
 {
     /**
-     * 
+     *
      */
     private string $id;
 
     /**
-     * 
+     *
      */
     private Business $business;
 
     /**
-     * 
+     *
      */
     private \DateTimeImmutable $received_at;
 
     /**
-     * 
+     *
      */
-    public function __construct(string $id, Business $business, string $received_at_timestamp)
+    public function __construct(string $id, Business $business, string $received_at)
     {
         $this->id = $id;
         $this->business = $business;
-        $this->received_at = (new \DateTimeImmutable())->setTimestamp($received_at_timestamp);
+        $this->received_at = (new \DateTimeImmutable())->setTimestamp($received_at);
     }
 
     /**
-     * 
+     *
      */
     public function id(): string
     {
@@ -43,7 +43,7 @@ abstract class Notification
     }
 
     /**
-     * 
+     *
      */
     public function businessPhoneNumberId(): string
     {
@@ -51,7 +51,7 @@ abstract class Notification
     }
 
     /**
-     * 
+     *
      */
     public function businessPhoneNumber(): string
     {
@@ -59,7 +59,7 @@ abstract class Notification
     }
 
     /**
-     * 
+     *
      */
     public function receivedAt(): \DateTimeImmutable
     {

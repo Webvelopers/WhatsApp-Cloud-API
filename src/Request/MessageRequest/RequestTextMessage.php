@@ -2,7 +2,7 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Request\MessageRequest;
 
-use Webvelopers\WhatsAppCloudApi\Message\Message;
+use Webvelopers\WhatsAppCloudApi\Message\TextMessage;
 use Webvelopers\WhatsAppCloudApi\Request\MessageRequest;
 
 /**
@@ -13,17 +13,17 @@ final class RequestTextMessage extends MessageRequest
     /**
      *
      */
-    protected Message $message;
+    protected TextMessage $message;
 
     /**
      *
      */
-    public function __construct(?Message $message, string $access_token, string $phone_number_id, ?int $timeout = null)
+    public function __construct(TextMessage $message, string $access_token, string $phone_number_id, ?int $timeout = null)
     {
         $this->message = $message;
         $this->phone_number_id = $phone_number_id;
 
-        parent::__construct($message, $access_token, $timeout);
+        parent::__construct($message, $access_token, $phone_number_id, $timeout);
     }
 
     /**
@@ -34,11 +34,11 @@ final class RequestTextMessage extends MessageRequest
         return [
             'messaging_product' => $this->message->messagingProduct(),
             'recipient_type' => $this->message->recipientType(),
-            'to' => $this->message->to(),
+            'to' => $this->message->phoneNumber(),
             'type' => $this->message->type(),
             'text' => [
                 'preview_url' => $this->message->previewUrl(),
-                'body' => $this->message->text(),
+                'body' => $this->message->textMessage(),
             ],
         ];
     }

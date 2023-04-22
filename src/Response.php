@@ -135,6 +135,7 @@ class Response
         throw new ResponseException($this);
     }
 
+
     /**
      * Convert the raw response into an array if possible.
      */

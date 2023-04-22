@@ -32,8 +32,8 @@ class App
      */
     public function __construct(?string $access_token = null, ?string $phone_number_id = null)
     {
-        $this->access_token = $access_token ?? env('WHATSAPP_CLOUD_API_ACCESS_TOKEN', self::ACCESS_TOKEN);
-        $this->phone_number_id = $phone_number_id ?? env('WHATSAPP_CLOUD_API_PHONE_NUMBER_ID', self::PHONE_NUMBER_ID);
+        $this->access_token = $access_token ?? env('WHATSAPP_CLOUD_API_ACCESS_TOKEN', static::ACCESS_TOKEN);
+        $this->phone_number_id = $phone_number_id ?? env('WHATSAPP_CLOUD_API_PHONE_NUMBER_ID', static::PHONE_NUMBER_ID);
 
         $this->validate($this->access_token, $this->phone_number_id);
     }

@@ -13,17 +13,12 @@ abstract class MessageRequest extends Request implements RequestWithBody
     /**
      *
      */
-    protected Message $message;
-
-    /**
-     *
-     */
     protected string $phone_number_id;
 
     /**
      *
      */
-    public function __construct(Message $message, string $access_token, string $phone_number_id, ?int $timeout = null)
+    public function __construct(mixed $message, string $access_token, string $phone_number_id, ?int $timeout = null)
     {
         $this->message = $message;
         $this->phone_number_id = $phone_number_id;

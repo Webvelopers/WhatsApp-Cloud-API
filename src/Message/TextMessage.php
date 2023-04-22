@@ -20,7 +20,7 @@ final class TextMessage extends Message
     /**
      *
      */
-    private string $text;
+    private string $text_message;
 
     /**
      *
@@ -30,22 +30,22 @@ final class TextMessage extends Message
     /**
      * Creates a new message of type text.
      */
-    public function __construct(string $to, string $text, bool $preview_url = false)
+    public function __construct(string $phone_number, string $text_message, bool $preview_url = false)
     {
-        $this->assertTextIsValid($text);
+        $this->assertTextIsValid($text_message);
 
-        $this->text = $text;
+        $this->text_message = $text_message;
         $this->preview_url = $preview_url;
 
-        parent::__construct($to);
+        parent::__construct($phone_number);
     }
 
     /**
      * Return the body of the text message.
      */
-    public function text(): string
+    public function textMessage(): string
     {
-        return $this->text;
+        return $this->text_message;
     }
 
     /**
@@ -61,7 +61,8 @@ final class TextMessage extends Message
      */
     private function assertTextIsValid(string $text): void
     {
-        if (strlen($text) > self::MAXIMUM_LENGTH)
-            throw new \LengthException(__('whatsapp.maximum_length', ['value' => self::MAXIMUM_LENGTH]));
+        $maximum_length = env('WHATSAPP_CLOUD_API_MAXIMUM_LENGTH', static::MAXIMUM_LENGTH);
+        if (strlen($text) > $maximum_length)
+            throw new \LengthException(__('whatsapp.maximum_length', ['value' => $maximum_length]));
     }
 }
