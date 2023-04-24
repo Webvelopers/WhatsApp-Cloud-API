@@ -1,10 +1,10 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\WebHook\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Webhook\Notification;
 
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Business;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Conversation;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Error;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Business;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Conversation;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Error;
 
 /**
  *
@@ -14,8 +14,21 @@ class StatusNotificationFactory
     /**
      *
      */
+    protected array $metadata;
+
+    /**
+     *
+     */
+    protected array $status;
+
+    /**
+     *
+     */
     public function buildFromPayload(array $metadata, array $status): StatusNotification
     {
+        $this->metadata = $metadata;
+        $this->status = $status;
+
         $notification = new StatusNotification(
             $status['id'],
             new Business($metadata['phone_number_id'], $metadata['display_phone_number']),

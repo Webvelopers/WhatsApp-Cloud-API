@@ -1,39 +1,59 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\WebHook\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Webhook\Notification;
 
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Business;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Context;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Customer;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Referral;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\ReferredProduct;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Business;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Context;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Customer;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Referral;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\ReferredProduct;
 
 /**
- * 
+ *
  */
 class MessageNotificationFactory
 {
     /**
-     * 
+     *
+     */
+    protected array $metadata;
+
+    /**
+     *
+     */
+    protected array $message;
+
+    /**
+     *
+     */
+    protected array $contact;
+
+    /**
+     *
      */
     public function buildFromPayload(array $metadata, array $message, array $contact): MessageNotification
     {
-        $notification = $this->buildMessageNotification($metadata, $message);
+        $this->metadata = $metadata;
+        $this->message = $message;
+        $this->contact = $contact;
+
+        $notification = $this->buildMessageNotification($metadata, $message, $contact);
 
         return $this->decorateNotification($notification, $message, $contact);
     }
 
     /**
-     * 
+     *
      */
-    private function buildMessageNotification(array $metadata, array $message): MessageNotification
+    private function buildMessageNotification(array $metadata, array $message, array $contact): MessageNotification
     {
         switch ($message['type']) {
             case 'text':
                 return new Text(
+                    $contact['wa_id'],
                     $message['id'],
                     new Business($metadata['phone_number_id'], $metadata['display_phone_number']),
-                    $message['text']['body'],
+                    $message['text'],
                     $message['timestamp']
                 );
             case 'reaction':
@@ -126,7 +146,7 @@ class MessageNotificationFactory
     }
 
     /**
-     * 
+     *
      */
     private function decorateNotification(MessageNotification $notification, array $message, array $contact): MessageNotification
     {

@@ -2,17 +2,17 @@
 
 namespace Webvelopers\WhatsAppCloudApi;
 
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification;
-use Webvelopers\WhatsAppCloudApi\WebHook\NotificationFactory;
-use Webvelopers\WhatsAppCloudApi\WebHook\VerificationRequest;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification;
+use Webvelopers\WhatsAppCloudApi\Webhook\NotificationFactory;
+use Webvelopers\WhatsAppCloudApi\Webhook\VerificationRequest;
 
 /**
  *
  */
-class WebHook
+class Webhook
 {
     /**
-     * Verify a webhook anytime you configure a new one in your App Dashboard.
+     * Verify a Webhook anytime you configure a new one in your App Dashboard.
      */
     public function verify(array $payload, ?string $verify_token = null): string
     {
@@ -20,7 +20,7 @@ class WebHook
     }
 
     /**
-     * Get a notification from incoming webhook messages.
+     * Get a notification from incoming Webhook messages.
      */
     public function read(array $payload): ?Notification
     {

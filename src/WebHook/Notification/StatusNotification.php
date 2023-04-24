@@ -1,12 +1,12 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\WebHook\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Webhook\Notification;
 
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Business;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Conversation;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Error;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Status;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Business;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Conversation;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Error;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Status;
 
 /**
  * 

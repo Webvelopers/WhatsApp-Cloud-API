@@ -1,12 +1,12 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\WebHook;
+namespace Webvelopers\WhatsAppCloudApi\Webhook;
 
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\MessageNotificationFactory;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\StatusNotificationFactory;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\MessageNotificationFactory;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\StatusNotificationFactory;
 
 /**
- * 
+ *
  */
 final class NotificationFactory
 {
@@ -30,7 +30,7 @@ final class NotificationFactory
     }
 
     /**
-     * 
+     *
      */
     public function buildFromPayload(array $payload): ?Notification
     {

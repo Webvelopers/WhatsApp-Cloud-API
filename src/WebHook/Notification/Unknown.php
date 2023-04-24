@@ -1,8 +1,8 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\WebHook\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Webhook\Notification;
 
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Business;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Business;
 
 /**
  * 

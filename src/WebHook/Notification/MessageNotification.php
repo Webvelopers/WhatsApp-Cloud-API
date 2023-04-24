@@ -1,11 +1,11 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\WebHook\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Webhook\Notification;
 
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Context;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Customer;
-use Webvelopers\WhatsAppCloudApi\WebHook\Notification\Support\Referral;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Context;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Customer;
+use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Referral;
 
 /**
  * 
