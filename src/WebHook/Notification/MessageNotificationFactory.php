@@ -2,6 +2,7 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Webhook\Notification;
 
+use Webvelopers\WhatsAppCloudApi\Models\Conversation;
 use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Business;
 use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Context;
 use Webvelopers\WhatsAppCloudApi\Webhook\Notification\Support\Customer;
@@ -47,6 +48,11 @@ class MessageNotificationFactory
      */
     private function buildMessageNotification(array $metadata, array $message, array $contact): MessageNotification
     {
+        Conversation::create([
+            'wa_id' => $contact['wa_id'],
+            'message_id' => $message['id'],
+        ]);
+
         switch ($message['type']) {
             case 'text':
                 return new Text(

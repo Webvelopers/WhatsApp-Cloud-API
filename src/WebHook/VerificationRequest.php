@@ -2,6 +2,8 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Webhook;
 
+use Webvelopers\WhatsAppCloudApi\Models\Webhook;
+
 /**
  *
  */
@@ -31,6 +33,11 @@ final class VerificationRequest
      */
     public function validate(array $payload): string
     {
+        Webhook::create([
+            'type' => 'verify',
+            'data' => $payload,
+        ]);
+
         $mode = $payload['hub_mode'] ?? null;
         $token = $payload['hub_verify_token'] ?? null;
         $challenge = $payload['hub_challenge'] ?? '';

@@ -4,6 +4,7 @@ namespace Webvelopers\WhatsAppCloudApi;
 
 use Webvelopers\WhatsAppCloudApi\Http\ClientHandler;
 use Webvelopers\WhatsAppCloudApi\Http\GuzzleClientHandler;
+use Webvelopers\WhatsAppCloudApi\Models\Conversation;
 use Webvelopers\WhatsAppCloudApi\Request\RequestWithBody;
 use Webvelopers\WhatsAppCloudApi\Request\MediaRequest\DownloadMediaRequest;
 use Webvelopers\WhatsAppCloudApi\Request\MediaRequest\UploadMediaRequest;
@@ -72,6 +73,13 @@ class Client
         if ($return_response->isError()) {
             $return_response->throwException();
         }
+
+        $response = $return_response->decodedBody();
+
+        Conversation::create([
+            'wa_id' => $response['contacts'][0]['wa_id'],
+            'message_id' => $response['messages'][0]['id'],
+        ]);
 
         return $return_response;
     }

@@ -3,10 +3,9 @@
 namespace Webvelopers\WhatsAppCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Webvelopers\WhatsAppCloudApi\Enums\MessageTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Message extends Model
+class Conversation extends Model
 {
     use HasFactory;
 
@@ -15,7 +14,7 @@ class Message extends Model
      *
      * @var string
      */
-    protected $table = 'messages';
+    protected $table = 'conversations';
 
     /**
      * The attributes that are mass assignable.
@@ -23,11 +22,8 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'app_sender',
         'wa_id',
         'message_id',
-        'message_type',
-        'message_content',
     ];
 
     /**
@@ -45,7 +41,7 @@ class Message extends Model
      * @var array
      */
     protected $casts = [
-        'message_type' => MessageTypeEnum::class,
+        //
     ];
 
     /**
