@@ -10,7 +10,7 @@ interface ClientHandler
     /**
      * Sends a JSON POST request to the server and returns the raw response.
      */
-    public function postJsonData(string $url, array $body, array $headers, int $timeout): RawResponse;
+    public function postJsonData(string $url, array $json, array $headers, int $timeout): RawResponse;
 
     /**
      * Sends a form POST request to the server and returns the raw response.

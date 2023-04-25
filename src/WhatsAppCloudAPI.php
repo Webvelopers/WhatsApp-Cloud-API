@@ -95,9 +95,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendDocument(string $to, MediaID $document_id, string $name, ?string $caption): Response
+    public function sendDocument(string $phone_number, MediaID $document_id, string $name, ?string $caption): Response
     {
-        $message = new DocumentMessage($to, $document_id, $name, $caption);
+        $message = new DocumentMessage($phone_number, $document_id, $name, $caption);
         $request = new RequestDocumentMessage(
             $message,
             $this->app->accessToken(),
@@ -113,9 +113,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendTemplate(string $to, string $template_name, string $language = 'en_US', ?Component $components = null): Response
+    public function sendTemplate(string $phone_number, string $template_name, string $language = 'en_US', ?Component $components = null): Response
     {
-        $message = new TemplateMessage($to, $template_name, $language, $components);
+        $message = new TemplateMessage($phone_number, $template_name, $language, $components);
         $request = new RequestTemplateMessage(
             $message,
             $this->app->accessToken(),
@@ -132,9 +132,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendAudio(string $to, MediaID $audio_id): Response
+    public function sendAudio(string $phone_number, MediaID $audio_id): Response
     {
-        $message = new AudioMessage($to, $audio_id);
+        $message = new AudioMessage($phone_number, $audio_id);
         $request = new RequestAudioMessage(
             $message,
             $this->app->accessToken(),
@@ -151,9 +151,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendImage(string $to, MediaID $image_id, ?string $caption = ''): Response
+    public function sendImage(string $phone_number, MediaID $image_id, ?string $caption = ''): Response
     {
-        $message = new ImageMessage($to, $image_id, $caption);
+        $message = new ImageMessage($phone_number, $image_id, $caption);
         $request = new RequestImageMessage(
             $message,
             $this->app->accessToken(),
@@ -170,9 +170,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendVideo(string $to, MediaID $video_id, string $caption = ''): Response
+    public function sendVideo(string $phone_number, MediaID $video_id, string $caption = ''): Response
     {
-        $message = new VideoMessage($to, $video_id, $caption);
+        $message = new VideoMessage($phone_number, $video_id, $caption);
         $request = new RequestVideoMessage(
             $message,
             $this->app->accessToken(),
@@ -189,9 +189,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendSticker(string $to, MediaID $sticker_id): Response
+    public function sendSticker(string $phone_number, MediaID $sticker_id): Response
     {
-        $message = new StickerMessage($to, $sticker_id);
+        $message = new StickerMessage($phone_number, $sticker_id);
         $request = new RequestStickerMessage(
             $message,
             $this->app->accessToken(),
@@ -207,9 +207,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendLocation(string $to, float $longitude, float $latitude, string $name = '', string $address = ''): Response
+    public function sendLocation(string $phone_number, float $longitude, float $latitude, string $name = '', string $address = ''): Response
     {
-        $message = new LocationMessage($to, $longitude, $latitude, $name, $address);
+        $message = new LocationMessage($phone_number, $longitude, $latitude, $name, $address);
         $request = new RequestLocationMessage(
             $message,
             $this->app->accessToken(),
@@ -225,9 +225,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendContact(string $to, ContactName $name, Phone ...$phone): Response
+    public function sendContact(string $phone_number, ContactName $name, Phone ...$phone): Response
     {
-        $message = new ContactMessage($to, $name, ...$phone);
+        $message = new ContactMessage($phone_number, $name, ...$phone);
         $request = new RequestContactMessage(
             $message,
             $this->app->accessToken(),
@@ -241,9 +241,9 @@ class WhatsAppCloudApi
     /**
      *
      */
-    public function sendList(string $to, string $header, string $body, string $footer, Action $action): Response
+    public function sendList(string $phone_number, string $header, string $body, string $footer, Action $action): Response
     {
-        $message = new OptionsListMessage($to, $header, $body, $footer, $action);
+        $message = new OptionsListMessage($phone_number, $header, $body, $footer, $action);
         $request = new RequestOptionsListMessage(
             $message,
             $this->app->accessToken(),
@@ -334,5 +334,13 @@ class WhatsAppCloudApi
     public function graphVersion(): string
     {
         return $this->client->graphVersion();
+    }
+
+    /**
+     * Returns the Graph Version.
+     */
+    public function timeout(): ?int
+    {
+        return $this->timeout;
     }
 }

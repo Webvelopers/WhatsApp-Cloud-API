@@ -26,9 +26,9 @@ final class GuzzleClientHandler implements ClientHandler
     /**
      *
      */
-    public function postJsonData(string $url, array $body, array $headers, int $timeout): RawResponse
+    public function postJsonData(string $url, array $json, array $headers, int $timeout): RawResponse
     {
-        $raw_handler_response = $this->post($url, $body, 'json', $headers, $timeout);
+        $raw_handler_response = $this->post($url, $json, 'json', $headers, $timeout);
 
         return $this->buildResponse($raw_handler_response);
     }
