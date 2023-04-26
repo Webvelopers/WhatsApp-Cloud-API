@@ -3,37 +3,37 @@
 namespace Webvelopers\WhatsAppCloudApi\Message\Contact;
 
 /**
- * 
+ *
  */
 final class Phone
 {
     /**
-     * 
+     *
      */
     private string $number;
 
     /**
-     * 
-     */
-    private string $wa_id;
-
-    /**
-     * 
+     *
      */
     private PhoneType $type;
 
     /**
-     * 
+     *
+     */
+    private string $wa_id;
+
+    /**
+     *
      */
     public function __construct(string $number, PhoneType $type, string $wa_id = '')
     {
         $this->number = $number;
-        $this->wa_id = $wa_id;
         $this->type = $type;
+        $this->wa_id = $wa_id;
     }
 
     /**
-     * 
+     *
      */
     public function number(): string
     {
@@ -41,18 +41,18 @@ final class Phone
     }
 
     /**
-     * 
-     */
-    public function waId(): string
-    {
-        return $this->wa_id;
-    }
-
-    /**
-     * 
+     *
      */
     public function type(): PhoneType
     {
         return $this->type;
+    }
+
+    /**
+     *
+     */
+    public function waId(): string
+    {
+        return $this->wa_id;
     }
 }

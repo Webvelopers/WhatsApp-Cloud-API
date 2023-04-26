@@ -18,12 +18,11 @@ final class RequestOptionsListMessage extends MessageRequest
     /**
      *
      */
-    public function __construct(?OptionsListMessage $message, string $access_token, string $from_phone_number_id, ?int $timeout = null)
+    public function __construct(?OptionsListMessage $message, string $phone_number_id, string $access_token, ?int $timeout = null)
     {
         $this->message = $message;
-        $this->from_phone_number_id = $from_phone_number_id;
 
-        parent::__construct($message, $access_token, $timeout);
+        parent::__construct($phone_number_id, $access_token, $timeout);
     }
 
     /**
@@ -34,7 +33,7 @@ final class RequestOptionsListMessage extends MessageRequest
         $request = [
             'messaging_product' => $this->message->messagingProduct(),
             'recipient_type' => $this->message->recipientType(),
-            'to' => $this->message->to(),
+            'to' => $this->message->phoneNumber(),
             'type' => 'interactive',
             'interactive' => [
                 'type' => $this->message->type(),

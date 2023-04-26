@@ -2,6 +2,7 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Webhook;
 
+use Webvelopers\WhatsAppCloudApi\Enums\WebhookTypeEnum;
 use Webvelopers\WhatsAppCloudApi\Models\Webhook;
 use Webvelopers\WhatsAppCloudApi\Webhook\Notification\MessageNotificationFactory;
 use Webvelopers\WhatsAppCloudApi\Webhook\Notification\StatusNotificationFactory;
@@ -40,8 +41,8 @@ final class NotificationFactory
         }
 
         Webhook::create([
-            'type' => 'read',
-            'data' => $payload,
+            'webhook_type' => WebhookTypeEnum::READ,
+            'webhook_data' => $payload,
         ]);
 
         $entry = $payload['entry'][0] ?? [];

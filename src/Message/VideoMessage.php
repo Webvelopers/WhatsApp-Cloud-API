@@ -5,58 +5,58 @@ namespace Webvelopers\WhatsAppCloudApi\Message;
 use Webvelopers\WhatsAppCloudApi\Message\Media\MediaID;
 
 /**
- * 
+ *
  */
 final class VideoMessage extends Message
 {
     /**
-     * 
+     *
      */
     protected string $type = 'video';
-
-    /**
-     * Describes the specified document.
-     */
-    private string $caption;
 
     /**
      * Document identifier: WhatsApp Media ID or any Internet public link document.
      * You can get a WhatsApp Media ID uploading the document to the WhatsApp Cloud servers.
      */
-    private MediaID $id;
+    private MediaID $media_id;
 
     /**
-     * 
+     * Describes the specified document.
      */
-    public function __construct(string $to, MediaID $id, ?string $caption = '')
+    private ?string $caption;
+
+    /**
+     *
+     */
+    public function __construct(string $phone_number, MediaID $media_id, ?string $caption = '')
     {
-        $this->id = $id;
+        parent::__construct($phone_number);
+
+        $this->media_id = $media_id;
         $this->caption = $caption;
-
-        parent::__construct($to);
     }
 
     /**
-     * 
-     */
-    public function caption(): ?string
-    {
-        return $this->caption;
-    }
-
-    /**
-     * 
+     *
      */
     public function identifierType(): string
     {
-        return $this->id->type();
+        return $this->media_id->type();
     }
 
     /**
-     * 
+     *
      */
     public function identifierValue(): string
     {
-        return $this->id->value();
+        return $this->media_id->value();
+    }
+
+    /**
+     *
+     */
+    public function caption(): string
+    {
+        return $this->caption;
     }
 }

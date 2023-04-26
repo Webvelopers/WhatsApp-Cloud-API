@@ -5,12 +5,12 @@ namespace Webvelopers\WhatsAppCloudApi\Message;
 use Webvelopers\WhatsAppCloudApi\Message\Media\MediaID;
 
 /**
- * 
+ *
  */
 final class StickerMessage extends Message
 {
     /**
-     * 
+     *
      */
     protected string $type = 'sticker';
 
@@ -18,31 +18,31 @@ final class StickerMessage extends Message
      * Document identifier: WhatsApp Media ID or any Internet public link document.
      * You can get a WhatsApp Media ID uploading the document to the WhatsApp Cloud servers.
      */
-    private MediaID $id;
+    private MediaID $media_id;
 
     /**
-     * 
+     *
      */
-    public function __construct(string $to, MediaID $id)
+    public function __construct(string $phone_number, MediaID $media_id)
     {
-        $this->id = $id;
+        parent::__construct($phone_number);
 
-        parent::__construct($to);
+        $this->media_id = $media_id;
     }
 
     /**
-     * 
+     *
      */
     public function identifierType(): string
     {
-        return $this->id->type();
+        return $this->media_id->type();
     }
 
     /**
-     * 
+     *
      */
     public function identifierValue(): string
     {
-        return $this->id->value();
+        return $this->media_id->value();
     }
 }

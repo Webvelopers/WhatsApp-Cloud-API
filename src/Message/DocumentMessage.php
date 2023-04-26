@@ -5,12 +5,12 @@ namespace Webvelopers\WhatsAppCloudApi\Message;
 use Webvelopers\WhatsAppCloudApi\Message\Media\MediaID;
 
 /**
- * 
+ *
  */
 final class DocumentMessage extends Message
 {
     /**
-     * 
+     *
      */
     protected string $type = 'document';
 
@@ -18,12 +18,12 @@ final class DocumentMessage extends Message
      * Document identifier: WhatsApp Media ID or any Internet public link document.
      * You can get a WhatsApp Media ID uploading the document to the WhatsApp Cloud servers.
      */
-    private MediaID $id;
+    private MediaID $media_id;
 
     /**
      * Describes the filename for the specific document: eg. my-document.pdf.
      */
-    private string $name;
+    private string $filename;
 
     /**
      * Describes the specified document.
@@ -31,15 +31,31 @@ final class DocumentMessage extends Message
     private ?string $caption;
 
     /**
-     * 
+     *
      */
-    public function __construct(string $to, MediaID $id, string $name, ?string $caption)
+    public function __construct(string $phone_number, MediaID $media_id, string $filename, ?string $caption = '')
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->caption = $caption;
+        parent::__construct($phone_number);
 
-        parent::__construct($to);
+        $this->media_id = $media_id;
+        $this->filename = $filename;
+        $this->caption = $caption;
+    }
+
+    /**
+     *
+     */
+    public function identifierType(): string
+    {
+        return $this->media_id->type();
+    }
+
+    /**
+     *
+     */
+    public function identifierValue(): string
+    {
+        return $this->media_id->value();
     }
 
     /**
@@ -47,30 +63,14 @@ final class DocumentMessage extends Message
      */
     public function filename(): string
     {
-        return $this->name;
+        return $this->filename;
     }
 
     /**
-     * 
+     *
      */
-    public function caption(): ?string
+    public function caption(): string
     {
         return $this->caption;
-    }
-
-    /**
-     * 
-     */
-    public function identifierType(): string
-    {
-        return $this->id->type();
-    }
-
-    /**
-     * 
-     */
-    public function identifierValue(): string
-    {
-        return $this->id->value();
     }
 }

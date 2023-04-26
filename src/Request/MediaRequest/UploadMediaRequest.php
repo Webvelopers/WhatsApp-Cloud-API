@@ -6,17 +6,17 @@ use GuzzleHttp\Psr7;
 use Webvelopers\WhatsAppCloudApi\Request;
 
 /**
- * 
+ *
  */
 final class UploadMediaRequest extends Request
 {
     /**
-     * 
+     *
      */
     private string $file_path;
 
     /**
-     * 
+     *
      */
     private string $phone_number_id;
 
@@ -50,6 +50,14 @@ final class UploadMediaRequest extends Request
                 'contents' => 'whatsapp',
             ],
         ];
+    }
+
+    /**
+     * Return WhatsApp Number Id for this request.
+     */
+    public function phoneNumberId(): string
+    {
+        return $this->phone_number_id;
     }
 
     /**

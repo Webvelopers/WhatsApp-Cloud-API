@@ -5,50 +5,50 @@ namespace Webvelopers\WhatsAppCloudApi\Message;
 use Webvelopers\WhatsAppCloudApi\Message\OptionsList\Action;
 
 /**
- * 
+ *
  */
 final class OptionsListMessage extends Message
 {
     /**
-     * 
+     *
      */
     protected string $type = 'list';
 
     /**
-     * 
+     *
      */
     private string $header;
 
     /**
-     * 
+     *
      */
     private string $body;
 
     /**
-     * 
+     *
      */
     private string $footer;
 
     /**
-     * 
+     *
      */
     private Action $action;
 
     /**
-     * 
+     *
      */
-    public function __construct(string $to, string $header, string $body, string $footer, Action $action)
+    public function __construct(string $phone_number, string $header, string $body, string $footer, Action $action)
     {
+        parent::__construct($phone_number);
+
         $this->header = $header;
         $this->body = $body;
         $this->footer = $footer;
         $this->action = $action;
-
-        parent::__construct($to);
     }
 
     /**
-     * 
+     *
      */
     public function header(): string
     {
@@ -56,7 +56,7 @@ final class OptionsListMessage extends Message
     }
 
     /**
-     * 
+     *
      */
     public function body(): string
     {
@@ -64,7 +64,7 @@ final class OptionsListMessage extends Message
     }
 
     /**
-     * 
+     *
      */
     public function footer(): string
     {
@@ -72,7 +72,7 @@ final class OptionsListMessage extends Message
     }
 
     /**
-     * 
+     *
      */
     public function action(): array
     {

@@ -7,62 +7,62 @@ use Webvelopers\WhatsAppCloudApi\Message\Contact\Phone;
 use Webvelopers\WhatsAppCloudApi\Message\Contact\Phones;
 
 /**
- * 
+ *
  */
 final class ContactMessage extends Message
 {
     /**
-     * 
+     *
      */
     protected string $type = 'contacts';
 
     /**
-     * 
+     *
      */
-    private ContactName $name;
+    private ContactName $contact_name;
 
     /**
-     * 
+     *
      */
     private Phones $phones;
 
     /**
-     * 
+     *
      */
-    public function __construct(string $to, ContactName $name, Phone ...$phones)
+    public function __construct(string $phone_number, ContactName $contact_name, Phone ...$phones)
     {
-        $this->name = $name;
-        $this->phones = new Phones(...$phones);
+        parent::__construct($phone_number);
 
-        parent::__construct($to);
+        $this->contact_name = $contact_name;
+        $this->phones = new Phones(...$phones);
     }
 
     /**
-     * 
+     *
      */
     public function fullName(): string
     {
-        return $this->name->fullName();
+        return $this->contact_name->fullName();
     }
 
     /**
-     * 
+     *
      */
     public function firstName(): string
     {
-        return $this->name->firstName();
+        return $this->contact_name->firstName();
     }
 
     /**
-     * 
+     *
      */
     public function lastName(): string
     {
-        return $this->name->lastName();
+        return $this->contact_name->lastName();
     }
 
     /**
-     * 
+     *
      */
     public function phones(): Phones
     {

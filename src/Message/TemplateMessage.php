@@ -22,7 +22,7 @@ final class TemplateMessage extends Message
     /**
      *
      */
-    private string $language;
+    private ?string $language;
 
     /**
      * Templates header, body and buttons can be personalized
@@ -32,13 +32,13 @@ final class TemplateMessage extends Message
     /**
      *
      */
-    public function __construct(string $to, string $name, string $language = 'en_US', ?Component $components = null)
+    public function __construct(string $phone_number, string $name, ?string $language = 'en_US', ?Component $components = null)
     {
+        parent::__construct($phone_number);
+
         $this->name = $name;
         $this->language = $language;
         $this->components = $components;
-
-        parent::__construct($to);
     }
 
     /**

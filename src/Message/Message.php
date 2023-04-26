@@ -20,12 +20,12 @@ abstract class Message
     /**
      *
      */
-    private string $phone_number;
+    protected string $type;
 
     /**
      *
      */
-    protected string $type;
+    protected string $phone_number;
 
     /**
      * Creates a new Message class.
@@ -52,18 +52,18 @@ abstract class Message
     }
 
     /**
-     * Return the WhatsApp ID or phone number for the person you want to send a message to.
-     */
-    public function phoneNumber(): string
-    {
-        return $this->phone_number;
-    }
-
-    /**
      * Return the type of message object.
      */
     public function type(): string
     {
         return $this->type;
+    }
+
+    /**
+     * Return the WhatsApp ID or phone number for the person you want to send a message to.
+     */
+    public function phoneNumber(): string
+    {
+        return $this->phone_number;
     }
 }

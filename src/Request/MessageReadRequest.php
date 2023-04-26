@@ -5,27 +5,27 @@ namespace Webvelopers\WhatsAppCloudApi\Request;
 use Webvelopers\WhatsAppCloudApi\Request;
 
 /**
- * 
+ *
  */
 final class MessageReadRequest extends Request implements RequestWithBody
 {
     /**
-     * 
+     *
      */
     private string $message_id;
 
     /**
-     * 
+     *
      */
-    private string $from_phone_number_id;
+    private string $phone_number_id;
 
     /**
-     * 
+     *
      */
-    public function __construct(string $message_id, string $access_token, string $from_phone_number_id, ?int $timeout = null)
+    public function __construct(string $message_id, string $phone_number_id, string $access_token, ?int $timeout = null)
     {
         $this->message_id = $message_id;
-        $this->from_phone_number_id = $from_phone_number_id;
+        $this->phone_number_id = $phone_number_id;
 
         parent::__construct($access_token, $timeout);
     }
@@ -45,9 +45,9 @@ final class MessageReadRequest extends Request implements RequestWithBody
     /**
      * Return WhatsApp Number Id for this request.
      */
-    public function fromPhoneNumberId(): string
+    public function phoneNumberId(): string
     {
-        return $this->from_phone_number_id;
+        return $this->phone_number_id;
     }
 
     /**
@@ -55,6 +55,6 @@ final class MessageReadRequest extends Request implements RequestWithBody
      */
     public function nodePath(): string
     {
-        return $this->from_phone_number_id . '/messages';
+        return $this->phone_number_id . '/messages';
     }
 }

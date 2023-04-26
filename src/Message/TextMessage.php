@@ -25,19 +25,19 @@ final class TextMessage extends Message
     /**
      *
      */
-    private bool $preview_url;
+    private ?bool $preview_url;
 
     /**
      * Creates a new message of type text.
      */
-    public function __construct(string $phone_number, string $text_message, bool $preview_url = false)
+    public function __construct(string $phone_number, string $text_message, ?bool $preview_url = false)
     {
         $this->assertTextIsValid($text_message);
 
+        parent::__construct($phone_number);
+
         $this->text_message = $text_message;
         $this->preview_url = $preview_url;
-
-        parent::__construct($phone_number);
     }
 
     /**
