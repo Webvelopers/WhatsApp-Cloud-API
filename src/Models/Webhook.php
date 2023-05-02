@@ -24,8 +24,8 @@ class Webhook extends Model
      * @var array
      */
     protected $fillable = [
-        'webhook_type',
-        'webhook_data',
+        'type',
+        'data',
     ];
 
     /**
@@ -43,7 +43,7 @@ class Webhook extends Model
      * @var array
      */
     protected $casts = [
-        'webhook_type' => WebhookTypeEnum::class,
+        'type' => WebhookTypeEnum::class,
     ];
 
     /**
@@ -58,7 +58,7 @@ class Webhook extends Model
     /**
      * Get/Set data webhook.
      */
-    protected function webhookData(): Attribute
+    protected function data(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => json_decode($value, true),

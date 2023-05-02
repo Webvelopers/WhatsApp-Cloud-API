@@ -24,7 +24,7 @@ class Contact extends Model
      */
     protected $fillable = [
         'wa_id',
-        'contact_data',
+        'data',
     ];
 
     /**
@@ -57,7 +57,7 @@ class Contact extends Model
     /**
      * Get/Set data webhook.
      */
-    protected function contactData(): Attribute
+    protected function data(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => json_decode($value, true),
