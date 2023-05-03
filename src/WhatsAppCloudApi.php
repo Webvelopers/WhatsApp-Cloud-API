@@ -165,8 +165,6 @@ class WhatsAppCloudApi
         return $this->client->sendMessage($request);
     }
 
-
-
     /**
      *
      */
@@ -225,9 +223,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendTextMessage(string $text_message, bool $preview_url, string $phone_number): Response
+    public function sendTextMessage(string $phone_number, string $text_message, bool $preview_url = false): Response
     {
-        $message = new TextMessage($text_message, $preview_url, $phone_number);
+        $message = new TextMessage($phone_number, $text_message, $preview_url);
         $request = new RequestTextMessage(
             $message,
             $this->app->phoneNumberId(),

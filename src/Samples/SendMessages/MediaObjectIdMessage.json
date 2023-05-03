@@ -1,0 +1,9 @@
+{
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "to": "PHONE_NUMBER",
+    "type": "image",
+    "image": {
+        "id": "MEDIA_OBJECT_ID"
+    }
+}

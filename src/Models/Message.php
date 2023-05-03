@@ -24,9 +24,9 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'message_id',
-        'message_type',
-        'message_data',
+        'wamid',
+        'type',
+        'data',
     ];
 
     /**
@@ -44,7 +44,7 @@ class Message extends Model
      * @var array
      */
     protected $casts = [
-        'message_type' => MessageTypeEnum::class,
+        'type' => MessageTypeEnum::class,
     ];
 
     /**
@@ -59,7 +59,7 @@ class Message extends Model
     /**
      * Get/Set data message.
      */
-    protected function messageData(): Attribute
+    protected function data(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => json_decode($value, true),

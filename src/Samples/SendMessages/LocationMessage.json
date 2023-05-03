@@ -1,0 +1,12 @@
+{
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "to": "PHONE_NUMBER",
+    "type": "location",
+    "location": {
+        "longitude": LONGITUDE_NUMBER,
+        "latitude": LATITUDE_NUMBER,
+        "name": "LOCATION_NAME",
+        "address": "LOCATION_ADDRESS"
+    }
+}

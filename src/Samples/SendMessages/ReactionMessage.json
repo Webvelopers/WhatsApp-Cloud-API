@@ -1,0 +1,10 @@
+{
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "to": "PHONE_NUMBER",
+    "type": "reaction",
+    "reaction": {
+        "message_id": "wamid.ID",
+        "emoji": "EMOJI_CODE"
+    }
+}

@@ -2,9 +2,9 @@
 
 namespace Webvelopers\WhatsAppCloudApi;
 
+use Webvelopers\WhatsAppCloudApi\Notification;
+use Webvelopers\WhatsAppCloudApi\Notification\NotificationFactory;
 use Webvelopers\WhatsAppCloudApi\Request\VerificationRequest;
-use Webvelopers\WhatsAppCloudApi\Webhook\Notification;
-use Webvelopers\WhatsAppCloudApi\Webhook\NotificationFactory;
 
 /**
  *
