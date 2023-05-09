@@ -38,17 +38,17 @@ use Webvelopers\WhatsAppCloudApi\Response\ResponseException;
 class WhatsAppCloudApi
 {
     /**
-     *
+     * App object
      */
     protected App $app;
 
     /**
-     *
+     * Client object
      */
     protected Client $client;
 
     /**
-     *
+     * timeout
      */
     protected ?int $timeout;
 

@@ -5,25 +5,25 @@ namespace Webvelopers\WhatsAppCloudApi\Message\Media;
 abstract class MediaID
 {
     /**
-     * Type of media identifier: id or link.
+     * Type of media: Identifier or Link.
      */
     protected string $type;
 
     /**
-     * Value of the identifier
+     * Value: Identifier or link.
      */
     private string $value;
 
     /**
-     * 
+     * Creates a new Message class Media ID.
      */
-    public function __construct(string $id)
+    public function __construct(string $value)
     {
-        $this->value = $id;
+        $this->value = $value;
     }
 
     /**
-     * 
+     * Return type: Identifier or link.
      */
     public function type(): string
     {
@@ -31,7 +31,7 @@ abstract class MediaID
     }
 
     /**
-     * 
+     * Return value: Identifier or Link.
      */
     public function value(): string
     {

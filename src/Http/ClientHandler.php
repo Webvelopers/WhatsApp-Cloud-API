@@ -5,7 +5,7 @@ namespace Webvelopers\WhatsAppCloudApi\Http;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- *
+ * Client Handler.
  */
 interface ClientHandler
 {

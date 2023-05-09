@@ -2,8 +2,8 @@
     "messaging_product": "whatsapp",
     "recipient_type": "individual",
     "to": "PHONE_NUMBER",
-    "type": "image",
-    "image": {
-        "link": "IMAGE_LINK"
+    "type": "audio/document/image/sticker/video",
+    "audio/document/image/sticker/video": {
+        "link": "MEDIA_LINK"
     }
 }

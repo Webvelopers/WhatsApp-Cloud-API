@@ -3,22 +3,22 @@
 namespace Webvelopers\WhatsAppCloudApi\Message\Contact;
 
 /**
- * 
+ * Contact Name
  */
 final class ContactName
 {
     /**
-     * 
+     * First name.
      */
     private string $first_name;
 
     /**
-     * 
+     * Last name.
      */
     private string $last_name;
 
     /**
-     * 
+     * Instantiates a new Contact Name object.
      */
     public function __construct(string $first_name, string $last_name = '')
     {
@@ -27,7 +27,7 @@ final class ContactName
     }
 
     /**
-     * 
+     * Returns full name.
      */
     public function fullName(): string
     {
@@ -35,7 +35,7 @@ final class ContactName
     }
 
     /**
-     * 
+     * Returns First name.
      */
     public function firstName(): string
     {
@@ -43,7 +43,7 @@ final class ContactName
     }
 
     /**
-     * 
+     * Returns Last name.
      */
     public function lastName(): string
     {

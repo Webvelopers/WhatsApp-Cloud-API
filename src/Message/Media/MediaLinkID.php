@@ -7,15 +7,15 @@ use Webvelopers\WhatsAppCloudApi\Message\Error\InvalidMessage;
 /**
  *
  */
-final class LinkID extends MediaID
+final class MediaLinkID extends MediaID
 {
     /**
-     *
+     * Type of media: Link
      */
     protected string $type = 'link';
 
     /**
-     * Creates a new Message class.
+     * Creates a new Message type Media Link ID.
      */
     public function __construct(string $url)
     {

@@ -3,52 +3,52 @@
 namespace Webvelopers\WhatsAppCloudApi\Enums;
 
 /**
- *
+ * Message Type
  */
 enum MessageTypeEnum: string
 {
     /**
      *
      */
-    case AUDIO = 'audio';
+    case Audio = 'audio';
 
     /**
      *
      */
-    case CONTACT = 'contact';
+    case Contact = 'contact';
 
     /**
      *
      */
-    case DOCUMENT = 'document';
+    case Document = 'document';
 
     /**
      *
      */
-    case IMAGE = 'image';
+    case Image = 'image';
 
     /**
      *
      */
-    case OPTIONS_LIST = 'options-list';
+    case OptionsList = 'options-list';
 
     /**
      *
      */
-    case STICKER = 'sticker';
+    case Sticker = 'sticker';
 
     /**
      *
      */
-    case TEMPLATE = 'template';
+    case Template = 'template';
 
     /**
      *
      */
-    case TEXT = 'text';
+    case Text = 'text';
 
     /**
      *
      */
-    case VIDEO = 'video';
+    case Video = 'video';
 }

@@ -3,27 +3,27 @@
 namespace Webvelopers\WhatsAppCloudApi\Message\Contact;
 
 /**
- *
+ * Phone.
  */
 final class Phone
 {
     /**
-     *
+     * Number.
      */
     private string $number;
 
     /**
-     *
+     * Type.
      */
     private PhoneType $type;
 
     /**
-     *
+     * WA ID.
      */
     private string $wa_id;
 
     /**
-     *
+     * Instantiates a new Phone object.
      */
     public function __construct(string $number, PhoneType $type, string $wa_id = '')
     {

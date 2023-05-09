@@ -3,27 +3,27 @@
 namespace Webvelopers\WhatsAppCloudApi\Http;
 
 /**
- * 
+ * Raw Response.
  */
 final class RawResponse
 {
     /**
-     * 
+     * Response headers.
      */
     private array $headers;
 
     /**
-     * 
+     * Body of the response.
      */
     private string $body;
 
     /**
-     * 
+     * HTTP Response code.
      */
     private $http_response_code;
 
     /**
-     * Creates a new GraphRawResponse entity.
+     * Instantiates a new Raw Response object.
      */
     public function __construct($headers, string $body, ?int $http_status_code = null)
     {
