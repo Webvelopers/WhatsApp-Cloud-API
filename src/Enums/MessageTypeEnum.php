@@ -15,7 +15,7 @@ enum MessageTypeEnum: string
     /**
      *
      */
-    case Contact = 'contact';
+    case Contacts = 'contacts';
 
     /**
      *
@@ -30,7 +30,12 @@ enum MessageTypeEnum: string
     /**
      *
      */
-    case OptionsList = 'options-list';
+    case Interactive = 'interactive';
+
+    /**
+     *
+     */
+    case Location = 'location';
 
     /**
      *
