@@ -7,7 +7,7 @@ use Webvelopers\WhatsAppCloudApi\Notification\NotificationFactory;
 use Webvelopers\WhatsAppCloudApi\Request\VerificationRequest;
 
 /**
- *
+ * .
  */
 class Webhook
 {

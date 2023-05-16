@@ -47,7 +47,10 @@ class StatusNotificationFactory
         if (isset($status['errors']))
             $notification->withError(new Error(
                 $status['errors'][0]['code'],
-                $status['errors'][0]['title']
+                $status['errors'][0]['title'],
+                $status['errors'][0]['message '],
+                $status['errors'][0]['error_data '],
+                $status['errors'][0]['details '],
             ));
 
         return $notification;

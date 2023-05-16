@@ -61,7 +61,7 @@ final class TextMessage extends Message
      */
     private function assertTextIsValid(string $text): void
     {
-        $maximum_length = env('WHATSAPP_CLOUD_API_MAXIMUM_LENGTH', self::MAXIMUM_LENGTH);
+        $maximum_length = env('WHATSAPP_CLOUD_API_MAXIMUM_LENGTH', static::MAXIMUM_LENGTH);
         if (strlen($text) > $maximum_length)
             throw new \LengthException(__('whatsapp.maximum_length', ['value' => $maximum_length]));
     }

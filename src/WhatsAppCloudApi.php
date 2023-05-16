@@ -33,7 +33,7 @@ use Webvelopers\WhatsAppCloudApi\Request\MessageRequest\RequestVideoMessage;
 use Webvelopers\WhatsAppCloudApi\Response\ResponseException;
 
 /**
- *
+ * Super-class
  */
 class WhatsAppCloudApi
 {

@@ -32,7 +32,7 @@ abstract class Request implements RequestWithBody
     public function __construct(string $access_token, ?int $timeout = null)
     {
         $this->access_token = $access_token;
-        $this->timeout = $timeout ?? env('WHATSAPP_CLOUD_API_REQUEST_TIMEOUT', self::REQUEST_TIMEOUT);
+        $this->timeout = $timeout ?? env('WHATSAPP_CLOUD_API_REQUEST_TIMEOUT', static::REQUEST_TIMEOUT);
     }
 
     /**

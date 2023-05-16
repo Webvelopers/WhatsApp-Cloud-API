@@ -26,7 +26,7 @@ final class VerificationRequest
      */
     public function __construct(?string $verify_token = null)
     {
-        $this->verify_token = $verify_token ?? env('WHATSAPP_CLOUD_API_VERIFY_TOKEN', self::VERIFY_TOKEN);
+        $this->verify_token = $verify_token ?? env('WHATSAPP_CLOUD_API_VERIFY_TOKEN', static::VERIFY_TOKEN);
     }
 
     /**
@@ -35,7 +35,7 @@ final class VerificationRequest
     public function validate(array $payload): string
     {
         Webhook::create([
-            'type' => WebhookTypeEnum::VERIFY,
+            'type' => WebhookTypeEnum::Verify,
             'data' => $payload,
         ]);
 

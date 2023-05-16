@@ -44,8 +44,8 @@ class Client
      */
     public function __construct(?string $graph_url = null, ?string $graph_version = null, ?ClientHandler $handler = null)
     {
-        $this->graph_url = $graph_url ?? env('WHATSAPP_CLOUD_API_GRAPH_URL', self::GRAPH_URL);
-        $this->graph_version = $graph_version ?? env('WHATSAPP_CLOUD_API_GRAPH_VERSION', self::GRAPH_VERSION);
+        $this->graph_url = $graph_url ?? env('WHATSAPP_CLOUD_API_GRAPH_URL', static::GRAPH_URL);
+        $this->graph_version = $graph_version ?? env('WHATSAPP_CLOUD_API_GRAPH_VERSION', static::GRAPH_VERSION);
         $this->handler = $handler ?? $this->defaultHandler();
     }
 
