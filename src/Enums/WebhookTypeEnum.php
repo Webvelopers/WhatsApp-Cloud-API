@@ -8,17 +8,12 @@ namespace Webvelopers\WhatsAppCloudApi\Enums;
 enum WebhookTypeEnum: string
 {
     /**
-     * Verify Token
+     * Verify token.
      */
     case Verify = 'verify';
 
     /**
-     * Read Message
+     * Read notification.
      */
     case Read = 'read';
-
-    /**
-     * Send Message
-     */
-    case Send = 'send';
 }

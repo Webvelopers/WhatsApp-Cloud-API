@@ -1,6 +1,6 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Webhook;
+namespace Webvelopers\WhatsAppCloudApi\Notification;
 
 use Webvelopers\WhatsAppCloudApi\Notification;
 use Webvelopers\WhatsAppCloudApi\Enums\WebhookTypeEnum;
@@ -9,9 +9,10 @@ use Webvelopers\WhatsAppCloudApi\Notification\MessageNotificationFactory;
 use Webvelopers\WhatsAppCloudApi\Notification\StatusNotificationFactory;
 
 /**
- *
+ * The notification payload is a combination of nested objects of
+ * JSON arrays and objects that contain information about a change.
  */
-final class NotificationFactory
+final class NotificationPayload
 {
     /**
      * Message notification factory
@@ -37,6 +38,10 @@ final class NotificationFactory
      */
     public function buildFromPayload(array $payload): ?Notification
     {
+        if (!is_array($payload['object'] ?? null)) {
+            return null;
+        }
+
         if (!is_array($payload['entry'] ?? null)) {
             return null;
         }
@@ -47,6 +52,7 @@ final class NotificationFactory
         ]);
 
         $entry = $payload['entry'][0] ?? [];
+        $id = $entry['changes'][0]['id'] ?? [];
         $contact = $entry['changes'][0]['value']['contacts'][0] ?? [];
         $errors = $entry['changes'][0]['value']['errors'][0] ?? [];
         $message = $entry['changes'][0]['value']['messages'][0] ?? [];
@@ -54,7 +60,7 @@ final class NotificationFactory
         $status = $entry['changes'][0]['value']['statuses'][0] ?? [];
 
         if ($errors) {
-
+            //
         }
 
         if ($message) {
