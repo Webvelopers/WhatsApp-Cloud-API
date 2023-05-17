@@ -3,9 +3,9 @@
 namespace Webvelopers\WhatsAppCloudApi;
 
 /**
- *
+ * Stores Access Token and Phone Number ID
  */
-class App
+class Application
 {
     /**
      * @const string The name of the environment variable that contains the app access token.
@@ -34,8 +34,6 @@ class App
     {
         $this->access_token = $access_token ?? env('WHATSAPP_CLOUD_API_ACCESS_TOKEN', static::ACCESS_TOKEN);
         $this->phone_number_id = $phone_number_id ?? env('WHATSAPP_CLOUD_API_PHONE_NUMBER_ID', static::PHONE_NUMBER_ID);
-
-        $this->validate($this->access_token, $this->phone_number_id);
     }
 
     /**
@@ -52,13 +50,5 @@ class App
     public function phoneNumberId(): string
     {
         return $this->phone_number_id;
-    }
-
-    /**
-     *
-     */
-    private function validate(string $access_token, string $phone_number_id): void
-    {
-        // validate by function type hinting
     }
 }

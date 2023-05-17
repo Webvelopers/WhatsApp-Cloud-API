@@ -4,13 +4,10 @@ namespace Webvelopers\WhatsAppCloudApi;
 
 use Webvelopers\WhatsAppCloudApi\Http\ClientHandler;
 use Webvelopers\WhatsAppCloudApi\Http\GuzzleClientHandler;
-use Webvelopers\WhatsAppCloudApi\Models\Conversation;
-use Webvelopers\WhatsAppCloudApi\Request\RequestWithBody;
-use Webvelopers\WhatsAppCloudApi\Request\MediaRequest\DownloadMediaRequest;
-use Webvelopers\WhatsAppCloudApi\Request\MediaRequest\UploadMediaRequest;
+//use Webvelopers\WhatsAppCloudApi\Request\RequestWithBody;
 
 /**
- *
+ * Client object.
  */
 class Client
 {
@@ -25,17 +22,17 @@ class Client
     public const GRAPH_VERSION = 'v16.0';
 
     /**
-     *
+     * Graph URL.
      */
     protected string $graph_url;
 
     /**
-     *
+     * Graph version.
      */
     protected string $graph_version;
 
     /**
-     *
+     * Handler
      */
     protected ClientHandler $handler;
 
@@ -54,7 +51,7 @@ class Client
      *
      * @throws Webvelopers\WhatsAppCloudApi\Response\ResponseException
      */
-    public function sendMessage(RequestWithBody $request): Response
+    public function sendMessage(Request $request): Response
     {
         $raw_response = $this->handler->postJsonData(
             $this->buildRequestUri($request->nodePath()),
@@ -75,69 +72,6 @@ class Client
         }
 
         $response = $return_response->decodedBody();
-
-        Conversation::create([
-            'wa_id' => $response['contacts'][0]['wa_id'],
-            'message_id' => $response['messages'][0]['id'],
-        ]);
-
-        return $return_response;
-    }
-
-    /**
-     * Upload a media file to Facebook servers.
-     *
-     * @throws Webvelopers\WhatsAppCloudApi\Response\ResponseException
-     */
-    public function uploadMedia(UploadMediaRequest $request): Response
-    {
-        $raw_response = $this->handler->postFormData(
-            $this->buildRequestUri($request->nodePath()),
-            $request->form(),
-            $request->headers(),
-            $request->timeout()
-        );
-
-        $return_response = new Response(
-            $request,
-            $raw_response->body(),
-            $raw_response->httpResponseCode(),
-            $raw_response->headers()
-        );
-
-        if ($return_response->isError()) {
-            $return_response->throwException();
-        }
-
-        return $return_response;
-    }
-
-    /**
-     * Download a media file from Facebook servers.
-     *
-     * @throws Webvelopers\WhatsAppCloudApi\Response\ResponseException
-     */
-    public function downloadMedia(DownloadMediaRequest $request): Response
-    {
-        $raw_response = $this->handler->get(
-            $this->buildRequestUri($request->nodePath()),
-            $request->headers(),
-            $request->timeout()
-        );
-
-        $response = Response::fromClientResponse($request, $raw_response);
-        $media_url = $response->decodedBody()['url'];
-
-        $raw_response = $this->handler->get(
-            $media_url,
-            $request->headers(),
-            $request->timeout()
-        );
-
-        $return_response = Response::fromClientResponse($request, $raw_response);
-
-        if ($return_response->isError())
-            $return_response->throwException();
 
         return $return_response;
     }

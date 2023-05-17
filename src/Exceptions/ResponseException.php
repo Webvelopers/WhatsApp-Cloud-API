@@ -1,21 +1,21 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Response;
+namespace Webvelopers\WhatsAppCloudApi\Exceptions;
 
-use Webvelopers\WhatsAppCloudApi\Response;
+use Webvelopers\WhatsAppCloudApi\Http\Responses\Response;
 
 /**
- * 
+ *
  */
 final class ResponseException extends \Exception
 {
     /**
-     * 
+     *
      */
     private $response;
 
     /**
-     * 
+     *
      */
     private $response_data;
 

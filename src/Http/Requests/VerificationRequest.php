@@ -1,9 +1,6 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Request;
-
-use Webvelopers\WhatsAppCloudApi\Enums\WebhookTypeEnum;
-use Webvelopers\WhatsAppCloudApi\Models\Webhook;
+namespace Webvelopers\WhatsAppCloudApi\Http\Requests\Request;
 
 /**
  *
@@ -34,11 +31,6 @@ final class VerificationRequest
      */
     public function validate(array $payload): string
     {
-        Webhook::create([
-            'type' => WebhookTypeEnum::Verify,
-            'data' => $payload,
-        ]);
-
         $mode = $payload['hub_mode'] ?? null;
         $token = $payload['hub_verify_token'] ?? null;
         $challenge = $payload['hub_challenge'] ?? '';

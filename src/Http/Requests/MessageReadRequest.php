@@ -1,13 +1,13 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Request;
+namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 
-use Webvelopers\WhatsAppCloudApi\Request;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\Request;
 
 /**
  *
  */
-final class MessageReadRequest extends Request implements RequestWithBody
+final class MessageReadRequest extends Request implements ClientRequest
 {
     /**
      *

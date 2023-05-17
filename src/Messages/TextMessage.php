@@ -1,9 +1,9 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Message;
+namespace Webvelopers\WhatsAppCloudApi\Messages;
 
 /**
- *
+ * Text Message
  */
 final class TextMessage extends Message
 {
@@ -13,39 +13,39 @@ final class TextMessage extends Message
     private const MAXIMUM_LENGTH = 4096;
 
     /**
-     *
+     * Type of message.
      */
     protected string $type = 'text';
 
     /**
-     *
+     * Text message body.
      */
-    private string $text_message;
+    private string $body;
 
     /**
-     *
+     * Preview URL.
      */
     private ?bool $preview_url;
 
     /**
      * Creates a new message of type text.
      */
-    public function __construct(string $phone_number, string $text_message, ?bool $preview_url = false)
+    public function __construct(string $to, string $body, ?bool $preview_url = false)
     {
-        $this->assertTextIsValid($text_message);
+        $this->validateBody($body);
 
-        parent::__construct($phone_number);
-
-        $this->text_message = $text_message;
+        $this->body = $body;
         $this->preview_url = $preview_url;
+
+        parent::__construct($to);
     }
 
     /**
      * Return the body of the text message.
      */
-    public function textMessage(): string
+    public function body(): string
     {
-        return $this->text_message;
+        return $this->body;
     }
 
     /**
@@ -57,12 +57,12 @@ final class TextMessage extends Message
     }
 
     /**
-     *
+     * Validate maximum length of body text message.
      */
-    private function assertTextIsValid(string $text): void
+    private function validateBody(string $body): void
     {
         $maximum_length = env('WHATSAPP_CLOUD_API_MAXIMUM_LENGTH', static::MAXIMUM_LENGTH);
-        if (strlen($text) > $maximum_length)
+        if (strlen($body) > $maximum_length)
             throw new \LengthException(__('whatsapp.maximum_length', ['value' => $maximum_length]));
     }
 }

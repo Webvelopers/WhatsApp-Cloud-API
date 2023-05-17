@@ -1,9 +1,10 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi;
+namespace Webvelopers\WhatsAppCloudApi\Http\Responses;
 
 use Webvelopers\WhatsAppCloudApi\Http\RawResponse;
-use Webvelopers\WhatsAppCloudApi\Response\ResponseException;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\Request;
+use Webvelopers\WhatsAppCloudApi\Exceptions\ResponseException;
 
 /**
  *

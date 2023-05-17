@@ -1,10 +1,10 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi;
+namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 
-use Webvelopers\WhatsAppCloudApi\Request\RequestWithBody;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\ClientRequest;
 
-abstract class Request implements RequestWithBody
+abstract class Request implements ClientRequest
 {
     /**
      * @const int The timeout in seconds for a normal request.

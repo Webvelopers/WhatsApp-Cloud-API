@@ -1,9 +1,9 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Request\MessageRequest;
+namespace Webvelopers\WhatsAppCloudApi\Http\Requests\MessageRequests;
 
-use Webvelopers\WhatsAppCloudApi\Message\TextMessage;
-use Webvelopers\WhatsAppCloudApi\Request\MessageRequest;
+use Webvelopers\WhatsAppCloudApi\Messages\TextMessage;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\MessageRequest;
 
 /**
  *
@@ -11,7 +11,7 @@ use Webvelopers\WhatsAppCloudApi\Request\MessageRequest;
 final class RequestTextMessage extends MessageRequest
 {
     /**
-     *
+     * Text Message.
      */
     protected TextMessage $message;
 
@@ -33,11 +33,11 @@ final class RequestTextMessage extends MessageRequest
         return [
             'messaging_product' => $this->message->messagingProduct(),
             'recipient_type' => $this->message->recipientType(),
-            'to' => $this->message->phoneNumber(),
+            'to' => $this->message->to(),
             'type' => $this->message->type(),
             'text' => [
                 'preview_url' => $this->message->previewUrl(),
-                'body' => $this->message->textMessage(),
+                'body' => $this->message->body(),
             ],
         ];
     }

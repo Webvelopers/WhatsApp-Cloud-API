@@ -1,6 +1,6 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Message;
+namespace Webvelopers\WhatsAppCloudApi\Messages;
 
 /**
  *
@@ -8,31 +8,31 @@ namespace Webvelopers\WhatsAppCloudApi\Message;
 abstract class Message
 {
     /**
-     *
+     * Messaging Product.
      */
     private string $messaging_product = 'whatsapp';
 
     /**
-     *
+     * Recipient Type.
      */
     private string $recipient_type = 'individual';
 
     /**
-     *
+     * Type of message.
      */
     protected string $type;
 
     /**
-     *
+     * Phone Number to send.
      */
-    protected string $phone_number;
+    protected string $to;
 
     /**
      * Creates a new Message class.
      */
-    public function __construct(string $phone_number)
+    public function __construct(string $to)
     {
-        $this->phone_number = $phone_number;
+        $this->to = $to;
     }
 
     /**
@@ -62,8 +62,8 @@ abstract class Message
     /**
      * Return the WhatsApp ID or phone number for the person you want to send a message to.
      */
-    public function phoneNumber(): string
+    public function to(): string
     {
-        return $this->phone_number;
+        return $this->to;
     }
 }

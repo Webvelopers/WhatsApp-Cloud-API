@@ -2,10 +2,11 @@
 
 namespace Webvelopers\WhatsAppCloudApi;
 
-use Webvelopers\WhatsAppCloudApi\Message\TextMessage;
-use Webvelopers\WhatsAppCloudApi\Request\MessageReadRequest;
-use Webvelopers\WhatsAppCloudApi\Request\MessageRequest\RequestTextMessage;
-use Webvelopers\WhatsAppCloudApi\Response\ResponseException;
+use Webvelopers\WhatsAppCloudApi\Messages\TextMessage;
+use Webvelopers\WhatsAppCloudApi\Requests\MessageReadRequest;
+use Webvelopers\WhatsAppCloudApi\Requests\MessageRequests\RequestTextMessage;
+use Webvelopers\WhatsAppCloudApi\Responses\Response;
+use Webvelopers\WhatsAppCloudApi\Responses\ResponseException;
 
 /**
  * Super-class
@@ -15,7 +16,7 @@ class WhatsAppCloudApi
     /**
      * App object
      */
-    protected App $app;
+    protected Application $app;
 
     /**
      * Client object
@@ -33,11 +34,14 @@ class WhatsAppCloudApi
     public function __construct(array $config = [])
     {
         $config = array_merge([
+            // Application
             'access_token' => null,
             'phone_number_id' => null,
+            // Client
             'graph_url' => null,
             'graph_version' => null,
             'client_handler' => null,
+            // Timeout
             'timeout' => null,
         ], $config);
 
@@ -51,9 +55,9 @@ class WhatsAppCloudApi
      *
      * @throws ResponseException
      */
-    public function sendTextMessage(string $phone_number, string $text_message, bool $preview_url = false): Response
+    public function sendTextMessage(string $to, string $body, bool $preview_url = false): Response
     {
-        $message = new TextMessage($phone_number, $text_message, $preview_url);
+        $message = new TextMessage($to, $body, $preview_url);
         $request = new RequestTextMessage(
             $message,
             $this->app->phoneNumberId(),
