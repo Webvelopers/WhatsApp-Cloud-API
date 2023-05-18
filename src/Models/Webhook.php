@@ -4,8 +4,8 @@ namespace Webvelopers\WhatsAppCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
 
 class Webhook extends Model
 {

@@ -1,23 +1,17 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
-use Webvelopers\WhatsAppCloudApi\Notification;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Business;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Conversation;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Error;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Status;
+use Webvelopers\WhatsAppCloudApi\Notifications\Notification;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Business;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Error;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Status;
 
 /**
  *
  */
 final class StatusNotification extends Notification
 {
-    /**
-     *
-     */
-    private ?Conversation $conversation = null;
-
     /**
      *
      */

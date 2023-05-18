@@ -1,10 +1,9 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Business;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Conversation;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Error;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Business;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Error;
 
 /**
  *
@@ -36,13 +35,6 @@ class StatusNotificationFactory
             $status['status'],
             $status['timestamp']
         );
-
-        if (isset($status['conversation']))
-            $notification->withConversation(new Conversation(
-                $status['conversation']['id'],
-                $status['conversation']['origin']['type'],
-                $status['conversation']['expiration_timestamp'] ?? null,
-            ));
 
         if (isset($status['errors']))
             $notification->withError(new Error(

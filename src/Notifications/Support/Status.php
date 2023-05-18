@@ -2,9 +2,6 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Notification\Support;
 
-/**
- *
- */
 final class Status extends \MyCLabs\Enum\Enum
 {
     /**

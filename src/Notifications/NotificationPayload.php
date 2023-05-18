@@ -1,12 +1,12 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
-use Webvelopers\WhatsAppCloudApi\Notification;
+use Webvelopers\WhatsAppCloudApi\Notifications\Notification;
 use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
 use Webvelopers\WhatsAppCloudApi\Models\Webhook;
-use Webvelopers\WhatsAppCloudApi\Notification\MessageNotificationFactory;
-use Webvelopers\WhatsAppCloudApi\Notification\StatusNotificationFactory;
+use Webvelopers\WhatsAppCloudApi\Notifications\MessageNotificationFactory;
+use Webvelopers\WhatsAppCloudApi\Notifications\StatusNotificationFactory;
 
 /**
  * The notification payload is a combination of nested objects of

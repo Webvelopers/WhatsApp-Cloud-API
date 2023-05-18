@@ -4,8 +4,8 @@ namespace Webvelopers\WhatsAppCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Webvelopers\WhatsAppCloudApi\Enums\MessageType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Webvelopers\WhatsAppCloudApi\Enums\MessageType;
 
 class Message extends Model
 {

@@ -4,9 +4,6 @@ namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
 use Webvelopers\WhatsAppCloudApi\Notifications\Support\Business;
 
-/**
- *
- */
 abstract class Notification
 {
     /**
