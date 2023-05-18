@@ -4,7 +4,8 @@ namespace Webvelopers\WhatsAppCloudApi;
 
 use Webvelopers\WhatsAppCloudApi\Http\ClientHandler;
 use Webvelopers\WhatsAppCloudApi\Http\GuzzleClientHandler;
-//use Webvelopers\WhatsAppCloudApi\Request\RequestWithBody;
+use Webvelopers\WhatsAppCloudApi\Http\Responses\Response;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\Request;
 
 /**
  * Client object.
@@ -49,7 +50,7 @@ class Client
     /**
      * Send a message request to.
      *
-     * @throws Webvelopers\WhatsAppCloudApi\Response\ResponseException
+     * @throws Webvelopers\WhatsAppCloudApi\Exceptions\ResponseException
      */
     public function sendMessage(Request $request): Response
     {

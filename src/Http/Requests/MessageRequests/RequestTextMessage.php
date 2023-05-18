@@ -5,9 +5,6 @@ namespace Webvelopers\WhatsAppCloudApi\Http\Requests\MessageRequests;
 use Webvelopers\WhatsAppCloudApi\Messages\TextMessage;
 use Webvelopers\WhatsAppCloudApi\Http\Requests\MessageRequest;
 
-/**
- *
- */
 final class RequestTextMessage extends MessageRequest
 {
     /**

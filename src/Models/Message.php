@@ -4,7 +4,7 @@ namespace Webvelopers\WhatsAppCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Webvelopers\WhatsAppCloudApi\Enums\MessageTypeEnum;
+use Webvelopers\WhatsAppCloudApi\Enums\MessageType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Message extends Model
@@ -24,7 +24,6 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'wamid',
         'type',
         'data',
     ];
@@ -44,7 +43,7 @@ class Message extends Model
      * @var array
      */
     protected $casts = [
-        'type' => MessageTypeEnum::class,
+        'type' => MessageType::class,
     ];
 
     /**

@@ -2,13 +2,10 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Enums;
 
-/**
- * Message Type
- */
-enum MessageTypeEnum: string
+enum MessageType: string
 {
     /**
-     * Text
+     * Text message.
      */
     case Text = 'text';
 }

@@ -3,10 +3,10 @@
 namespace Webvelopers\WhatsAppCloudApi;
 
 use Webvelopers\WhatsAppCloudApi\Messages\TextMessage;
-use Webvelopers\WhatsAppCloudApi\Requests\MessageReadRequest;
-use Webvelopers\WhatsAppCloudApi\Requests\MessageRequests\RequestTextMessage;
-use Webvelopers\WhatsAppCloudApi\Responses\Response;
-use Webvelopers\WhatsAppCloudApi\Responses\ResponseException;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\MessageReadRequest;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\MessageRequests\RequestTextMessage;
+use Webvelopers\WhatsAppCloudApi\Http\Responses\Response;
+use Webvelopers\WhatsAppCloudApi\Http\Responses\ResponseException;
 
 /**
  * Super-class
@@ -45,7 +45,7 @@ class WhatsAppCloudApi
             'timeout' => null,
         ], $config);
 
-        $this->app = new App($config['access_token'], $config['phone_number_id']);
+        $this->app = new Application($config['access_token'], $config['phone_number_id']);
         $this->client = new Client($config['graph_url'], $config['graph_version'], $config['client_handler']);
         $this->timeout = $config['timeout'];
     }

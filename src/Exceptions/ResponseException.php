@@ -4,20 +4,17 @@ namespace Webvelopers\WhatsAppCloudApi\Exceptions;
 
 use Webvelopers\WhatsAppCloudApi\Http\Responses\Response;
 
-/**
- *
- */
 final class ResponseException extends \Exception
 {
     /**
      *
      */
-    private $response;
+    private Response $response;
 
     /**
      *
      */
-    private $response_data;
+    private array $response_data;
 
     /**
      * Creates a ResponseException.
@@ -31,7 +28,7 @@ final class ResponseException extends \Exception
     /**
      * Returns the HTTP status code
      */
-    public function httpStatusCode()
+    public function httpStatusCode(): int
     {
         return $this->response->httpStatusCode();
     }
@@ -39,7 +36,7 @@ final class ResponseException extends \Exception
     /**
      * Returns the raw response used to create the exception.
      */
-    public function rawResponse()
+    public function rawResponse(): string
     {
         return $this->response->body();
     }
@@ -47,7 +44,7 @@ final class ResponseException extends \Exception
     /**
      * Returns the decoded response used to create the exception.
      */
-    public function responseData()
+    public function responseData(): array
     {
         return $this->response_data;
     }
@@ -55,7 +52,7 @@ final class ResponseException extends \Exception
     /**
      * Returns the response entity used to create the exception.
      */
-    public function response()
+    public function response(): Response
     {
         return $this->response;
     }

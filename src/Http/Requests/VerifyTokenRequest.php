@@ -1,11 +1,8 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Http\Requests\Request;
+namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 
-/**
- *
- */
-final class VerificationRequest
+final class VerifyTokenRequest
 {
     /**
      * @const string The name of the environment variable that contains the app access token.

@@ -1,11 +1,11 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Notification;
+namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
-use Webvelopers\WhatsAppCloudApi\Notification;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Context;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Customer;
-use Webvelopers\WhatsAppCloudApi\Notification\Support\Referral;
+use Webvelopers\WhatsAppCloudApi\Notifications\Notification;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Context;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Customer;
+use Webvelopers\WhatsAppCloudApi\Notifications\Support\Referral;
 
 /**
  *

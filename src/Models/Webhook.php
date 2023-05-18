@@ -4,7 +4,7 @@ namespace Webvelopers\WhatsAppCloudApi\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Webvelopers\WhatsAppCloudApi\Enums\WebhookTypeEnum;
+use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Webhook extends Model
@@ -43,7 +43,7 @@ class Webhook extends Model
      * @var array
      */
     protected $casts = [
-        'type' => WebhookTypeEnum::class,
+        'type' => WebhookType::class,
     ];
 
     /**

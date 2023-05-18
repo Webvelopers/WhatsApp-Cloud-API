@@ -6,9 +6,6 @@ use Webvelopers\WhatsAppCloudApi\Http\RawResponse;
 use Webvelopers\WhatsAppCloudApi\Http\Requests\Request;
 use Webvelopers\WhatsAppCloudApi\Exceptions\ResponseException;
 
-/**
- *
- */
 class Response
 {
     /**
