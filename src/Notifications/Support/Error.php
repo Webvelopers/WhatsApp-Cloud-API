@@ -1,6 +1,6 @@
 <?php
 
-namespace Webvelopers\WhatsAppCloudApi\Notification\Support;
+namespace Webvelopers\WhatsAppCloudApi\Notifications\Support;
 
 final class Error
 {
