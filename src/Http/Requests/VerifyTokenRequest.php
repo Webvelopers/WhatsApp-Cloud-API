@@ -2,6 +2,8 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 
+use Illuminate\Support\Str;
+
 final class VerifyTokenRequest
 {
     /**
@@ -32,14 +34,17 @@ final class VerifyTokenRequest
         $token = $payload['hub_verify_token'] ?? null;
         $challenge = $payload['hub_challenge'] ?? '';
 
+        if($mode === null || $token === null || $challenge === '') {
+            http_response_code(400);
+            return __('whatsapp.webhook.verify_token.payload');
+        }
+
         if ('subscribe' !== $mode || $token !== $this->verify_token) {
             http_response_code(403);
-
-            return $challenge;
+            return Str::random(9);
         }
 
         http_response_code(200);
-
         return $challenge;
     }
 }
