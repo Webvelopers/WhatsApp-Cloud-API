@@ -36,7 +36,7 @@ final class VerifyTokenRequest
 
         if($mode === null || $token === null || $challenge === '') {
             http_response_code(400);
-            return __('whatsapp.webhook.verify_token.payload');
+            return __('whatsapp.webhook.verify_token.payload_error');
         }
 
         if ('subscribe' !== $mode || $token !== $this->verify_token) {
