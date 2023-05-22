@@ -31,8 +31,8 @@ final class VerifyTokenRequest
     public function validate(array $payload): string
     {
         $mode = $payload['hub_mode'] ?? null;
-        $token = $payload['hub_verify_token'] ?? null;
         $challenge = $payload['hub_challenge'] ?? '';
+        $token = $payload['hub_verify_token'] ?? null;
 
         if($mode === null || $token === null || $challenge === '') {
             http_response_code(400);
