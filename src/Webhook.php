@@ -35,9 +35,9 @@ class Webhook
      */
     protected function validatePayload(array $payload): bool
     {
-        if (!array_key_exists('hub_mode', $payload) || !array_key_exists('hub_challenge', $payload) || !array_key_exists('hub_verify_token', $payload))
-            return false;
+        if (array_key_exists('hub_mode', $payload) && array_key_exists('hub_challenge', $payload) && array_key_exists('hub_verify_token', $payload))
+            return true;
 
-        return true;
+        return false;
     }
 }
