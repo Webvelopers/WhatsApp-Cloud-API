@@ -3,7 +3,7 @@
 namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
+use Webvelopers\WhatsAppCloudApi\Support\Challenge;
 
 final class VerifyTokenRequest
 {
@@ -39,7 +39,7 @@ final class VerifyTokenRequest
             return new Response(__('whatsapp.webhook.verify_token.hub_error'), 400);
 
         if ($this->hub_verify_token !== $this->verify_token)
-            return new Response(Str::random(9), 403);
+            return new Response(Challenge::make(), 403);
 
         return new Response($this->hub_challenge, 200);
     }
