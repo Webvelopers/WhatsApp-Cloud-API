@@ -47,11 +47,11 @@ final class VerifyTokenRequest
     /**
      * Validates verify token hub parameters.
      */
-    private function validateHub(array $payload): bool
+    private function validateHub(array $hub): bool
     {
-        $mode = $payload['hub_mode'] ?? null;
-        $challenge = $payload['hub_challenge'] ?? null;
-        $verify_token = $payload['hub_verify_token'] ?? null;
+        $mode = $hub['hub_mode'] ?? null;
+        $challenge = $hub['hub_challenge'] ?? null;
+        $verify_token = $hub['hub_verify_token'] ?? null;
 
         if ($mode !== 'subscribe' || $mode === null || $challenge === null || $verify_token === null)
             return false;

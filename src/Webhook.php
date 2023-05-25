@@ -2,9 +2,10 @@
 
 namespace Webvelopers\WhatsAppCloudApi;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Webvelopers\WhatsAppCloudApi\Notifications\Notification;
 use Webvelopers\WhatsAppCloudApi\Notifications\NotificationPayload;
+use Webvelopers\WhatsAppCloudApi\Http\Requests\NotificationRequest;
 use Webvelopers\WhatsAppCloudApi\Http\Requests\VerifyTokenRequest;
 
 class Webhook
@@ -21,8 +22,9 @@ class Webhook
      * Webhooks are triggered when a customer performs an action or the status
      * for a message a business sends a customer changes.
      */
-    public function notification(array $payload): ?Notification
+    public function notification(array $payload): JsonResponse
     {
-        return (new NotificationPayload())->buildFromPayload($payload);
+        //return (new NotificationPayload())->buildFromPayload($payload);
+        return (new NotificationRequest($payload))->save();
     }
 }
