@@ -3,8 +3,6 @@
 namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
 use Webvelopers\WhatsAppCloudApi\Notifications\Notification;
-use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
-use Webvelopers\WhatsAppCloudApi\Models\Webhook;
 use Webvelopers\WhatsAppCloudApi\Notifications\MessageNotificationFactory;
 use Webvelopers\WhatsAppCloudApi\Notifications\StatusNotificationFactory;
 
@@ -43,11 +41,6 @@ final class NotificationPayload
 
         if (!is_array($payload['entry'] ?? null))
             return null;
-
-        Webhook::create([
-            'type' => WebhookType::Read,
-            'data' => $payload,
-        ]);
 
         $entry = $payload['entry'][0] ?? [];
         $id = $entry['changes'][0]['id'] ?? [];

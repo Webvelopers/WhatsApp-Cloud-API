@@ -21,50 +21,36 @@ final class NotificationRequest
      */
     public function save(): JsonResponse
     {
-        $payload = json_decode('{
-            "object": "whatsapp_business_account",
-            "entry": [
-                {
-                    "id": "WHATSAPP_BUSINESS_ACCOUNT_ID",
-                    "changes": [
-                        {
-                            "value": {
-                                "messaging_product": "whatsapp",
-                                "metadata": {
-                                    "display_phone_number": "PHONE_NUMBER",
-                                    "phone_number_id": "PHONE_NUMBER_ID"
-                                },
-                                "contacts": [
-                                    {
-                                        "profile": {
-                                            "name": "PROFILE_NAME"
-                                        },
-                                        "wa_id": "PHONE_NUMBER"
-                                    }
-                                ],
-                                "messages": [
-                                    {
-                                        "from": "PHONE_NUMBER",
-                                        "id": "wamid.ID",
-                                        "timestamp": "TIMESTAMP",
-                                        "text": {
-                                            "body": "MESSAGE_BODY"
-                                        },
-                                        "type": "text"
-                                    }
-                                ]
-                            },
-                            "field": "messages"
-                        }
-                    ]
-                }
-            ]
-        }');
-        dd($payload);
-
-        if ($this->payload !== $payload)
+        if (!in_array('object', $this->payload)) {
+            dd('object');
             return response()->json([], 400);
+        }
 
-        return response()->json([], 200);
+        if (!is_array($payload['entry'] ?? null)) {
+            dd('entry');
+            return response()->json([], 400);
+        }
+
+        $entry = $payload['entry'][0] ?? [];
+        $id = $entry['changes'][0]['id'] ?? [];
+        $contact = $entry['changes'][0]['value']['contacts'][0] ?? [];
+        $errors = $entry['changes'][0]['value']['errors'][0] ?? [];
+        $message = $entry['changes'][0]['value']['messages'][0] ?? [];
+        $metadata = $entry['changes'][0]['value']['metadata'] ?? [];
+        $status = $entry['changes'][0]['value']['statuses'][0] ?? [];
+
+        if ($errors) {
+            return response()->json($errors, 400);
+        }
+
+        if ($message) {
+            return response()->json($message, 200);
+        }
+
+        if ($status) {
+            return response()->json($status, 200);
+        }
+
+        return response()->json([], 400);
     }
 }
