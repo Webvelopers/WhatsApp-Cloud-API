@@ -2,30 +2,30 @@
     "object": "whatsapp_business_account",
     "entry": [
         {
-            "id": WHATSAPP_BUSINESS_ACCOUNT_ID,
+            "id": "116502597984577",
             "changes": [
                 {
                     "value": {
                         "messaging_product": "whatsapp",
                         "metadata": {
-                            "display_phone_number": PHONE_NUMBER,
-                            "phone_number_id": PHONE_NUMBER_ID
+                            "display_phone_number": "15550464960",
+                            "phone_number_id": "113498454953213"
                         },
                         "contacts": [
                             {
                                 "profile": {
-                                    "name": PROFILE_NAME
+                                    "name": "@GiorgioHendry"
                                 },
-                                "wa_id": PHONE_NUMBER
+                                "wa_id": "593983719328"
                             }
                         ],
                         "messages": [
                             {
-                                "from": PHONE_NUMBER,
-                                "id": "wamid.ID",
-                                "timestamp": TIMESTAMP,
+                                "from": "593983719328",
+                                "id": "wamid.HBgMNTkzOTgzNzE5MzI4FQIAEhgUM0E3NUU4NDEwNjUxQkE4RTMxRkQA",
+                                "timestamp": "1685464489",
                                 "text": {
-                                    "body": "MESSAGE_BODY"
+                                    "body": "Test Message"
                                 },
                                 "type": "text"
                             }

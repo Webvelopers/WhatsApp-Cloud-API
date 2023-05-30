@@ -4,7 +4,6 @@ namespace Webvelopers\WhatsAppCloudApi;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Webvelopers\WhatsAppCloudApi\Notifications\NotificationPayload;
 use Webvelopers\WhatsAppCloudApi\Http\Requests\NotificationRequest;
 use Webvelopers\WhatsAppCloudApi\Http\Requests\VerifyTokenRequest;
 
@@ -24,7 +23,6 @@ class Webhook
      */
     public function notification(array $payload): JsonResponse
     {
-        //return (new NotificationPayload())->buildFromPayload($payload);
-        return (new NotificationRequest($payload))->save();
+        return (new NotificationRequest($payload))->create();
     }
 }
