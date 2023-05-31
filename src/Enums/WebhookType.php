@@ -12,5 +12,5 @@ enum WebhookType: string
     /**
      * Message received from a customer.
      */
-    case NotificationPayload = 'notification-payload';
+    case Notification = 'notification';
 }

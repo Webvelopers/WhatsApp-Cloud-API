@@ -24,6 +24,10 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
+        'notification',
+        'wam_id',
+        'from',
+        'timestamp',
         'type',
         'data',
     ];

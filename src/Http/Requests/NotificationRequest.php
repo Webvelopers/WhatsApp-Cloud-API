@@ -5,6 +5,7 @@ namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 use \DateTimeImmutable as DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Webvelopers\WhatsAppCloudApi\Notifications\Notification;
 
 final class NotificationRequest
 {
@@ -18,12 +19,10 @@ final class NotificationRequest
      */
     protected string $phone_number_id;
 
+    /**
+     * Notification Payload.
+     */
     protected array $payload;
-    protected array $metadata;
-    protected array $contact;
-    protected array $errors;
-    protected array $statuses;
-    protected array $messages;
 
     /**
      * Instances of class.
@@ -37,104 +36,73 @@ final class NotificationRequest
     }
 
     /**
-     * .
+     * Creates Notification.
      */
     public function create(): JsonResponse
     {
-        //Log::info(json_encode($this->payload, true));
+        Log::info(json_encode($this->payload, true));
 
         if (!$this->validate())
-            return response()->json([], 400);
+            return response()->json(['error' => __('Invalid payload')], 400);
 
-        $this->setPayload();
+        if (!$this->setNotification())
+            return response()->json(['error' => __('Invalid notification')], 400);
 
-        return response()->json([
-            'id' => $this->whatsapp_business_account_id,
-            'metadata' => $this->metadata,
-            'contact' => $this->contact,
-            'errors' => $this->errors,
-            'statuses' => $this->statuses,
-            'messages' => $this->messages,
-        ], 200);
+        return response()->json(['message' => __('Ok')], 200);
     }
 
     /**
-     * .
+     * Validates Notification.
      */
     private function validate(): bool
     {
         // object
         if (!array_key_exists('object', $this->payload))
             return false;
-
-        $object = $this->payload['object'];
-
-        if ('whatsapp_business_account' !== $object)
+        if ('whatsapp_business_account' !== $this->payload['object'])
             return false;
 
         // entry
         if (!array_key_exists('entry', $this->payload))
             return false;
-
-        $entry = $this->payload['entry'];
-
-        if (!is_array($entry))
+        if (!is_array($this->payload['entry']))
             return false;
-
-        if (!array_key_exists(0, $entry))
+        if (!array_key_exists(0, $this->payload['entry']))
             return false;
-
-        $entry = $entry[0];
-
-        if (!is_array($entry))
+        if (!is_array($this->payload['entry'][0]))
             return false;
 
         // id
-        if (!array_key_exists('id', $entry))
+        if (!array_key_exists('id', $this->payload['entry'][0]))
             return false;
-
-        $id = $entry['id'];
-
-        if ($this->whatsapp_business_account_id !== $id)
+        if ($this->whatsapp_business_account_id !== $this->payload['entry'][0]['id'])
             return false;
 
         // changes
-        if (!array_key_exists('changes', $entry))
+        if (!array_key_exists('changes', $this->payload['entry'][0]))
             return false;
-
-        $changes = $entry['changes'];
-
-        if (!is_array($changes))
+        if (!is_array($this->payload['entry'][0]['changes']))
             return false;
-
-        if (!array_key_exists(0, $changes))
+        if (!array_key_exists(0, $this->payload['entry'][0]['changes']))
             return false;
-
-        $changes = $changes[0];
-
-        if (!is_array($changes))
+        if (!is_array($this->payload['entry'][0]['changes'][0]))
             return false;
 
         // field
-        if (!array_key_exists('field', $changes))
+        if (!array_key_exists('field', $this->payload['entry'][0]['changes'][0]))
             return false;
-
-        $field = $changes['field'];
-        if ('messages' !== $field)
+        if ('messages' !== $this->payload['entry'][0]['changes'][0]['field'])
             return false;
-
         // value
         if (!array_key_exists('value', $this->payload['entry'][0]['changes'][0]))
             return false;
         if (!is_array($this->payload['entry'][0]['changes'][0]['value']))
             return false;
-
         // messaging_product
         if (!array_key_exists('messaging_product', $this->payload['entry'][0]['changes'][0]['value']))
             return false;
         if ('whatsapp' !== $this->payload['entry'][0]['changes'][0]['value']['messaging_product'])
             return false;
-
         // metadata
         if (!array_key_exists('metadata', $this->payload['entry'][0]['changes'][0]['value']))
             return false;
@@ -151,23 +119,21 @@ final class NotificationRequest
         if ($this->phone_number_id !== $this->payload['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'])
             return false;
 
-        $entry = $this->payload['entry'][0];
-        $this->metadata = $entry['changes'][0]['value']['metadata'] ?? [];
-        $this->contact = $entry['changes'][0]['value']['contacts'][0] ?? [];
-        $this->errors = $entry['changes'][0]['value']['errors'][0] ?? [];
-        $this->statuses = $entry['changes'][0]['value']['statuses'][0] ?? [];
-        $this->messages = $entry['changes'][0]['value']['messages'][0] ?? [];
-
         return true;
     }
 
-    private function setPayload()
+    /**
+     * Sets Notification.
+     */
+    private function setNotification(): bool
     {
-        $entry = $this->payload['entry'][0];
-        $this->metadata = $entry['changes'][0]['value']['metadata'] ?? [];
-        $this->contact = $entry['changes'][0]['value']['contacts'][0] ?? [];
-        $this->errors = $entry['changes'][0]['value']['errors'][0] ?? [];
-        $this->statuses = $entry['changes'][0]['value']['statuses'][0] ?? [];
-        $this->messages = $entry['changes'][0]['value']['messages'][0] ?? [];
+        return (new Notification([
+            'id' => $this->whatsapp_business_account_id,
+            'metadata' => $this->payload['entry'][0]['changes'][0]['value']['metadata'],
+            'contact' => $this->payload['entry'][0]['changes'][0]['value']['contacts'][0] ?? [],
+            'errors' => $this->payload['entry'][0]['changes'][0]['value']['errors'][0] ?? [],
+            'statuses' => $this->payload['entry'][0]['changes'][0]['value']['statuses'][0] ?? [],
+            'messages' => $this->payload['entry'][0]['changes'][0]['value']['messages'][0] ?? [],
+        ]))->set();
     }
 }

@@ -2,64 +2,31 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
-use Webvelopers\WhatsAppCloudApi\Notifications\Support\Business;
+use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
+use Webvelopers\WhatsAppCloudApi\Models\Webhook;
 
-abstract class Notification
+final class Notification
 {
     /**
-     *
+     * Notification.
      */
-    private string $id;
+    protected array $notification;
 
     /**
-     *
+     * Instances of Class.
      */
-    private Business $business;
-
-    /**
-     *
-     */
-    private \DateTimeImmutable $received_at;
-
-    /**
-     *
-     */
-    public function __construct(string $id, Business $business, string $received_at)
+    public function __construct(array $notification)
     {
-        $this->id = $id;
-        $this->business = $business;
-        $this->received_at = (new \DateTimeImmutable())->setTimestamp($received_at);
+        $this->notification = $notification;
     }
 
-    /**
-     *
-     */
-    public function id(): string
+    public function set(): bool
     {
-        return $this->id;
-    }
+        Webhook::create([
+            'type' => WebhookType::Notification,
+            'data' => $this->notification,
+        ]);
 
-    /**
-     *
-     */
-    public function businessPhoneNumberId(): string
-    {
-        return $this->business->phoneNumberId();
-    }
-
-    /**
-     *
-     */
-    public function businessPhoneNumber(): string
-    {
-        return $this->business->phoneNumber();
-    }
-
-    /**
-     *
-     */
-    public function receivedAt(): \DateTimeImmutable
-    {
-        return $this->received_at;
+        return true;
     }
 }
