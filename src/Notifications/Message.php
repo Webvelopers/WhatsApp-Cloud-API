@@ -2,6 +2,9 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
+use Webvelopers\WhatsAppCloudApi\Enums\MessageType;
+use Webvelopers\WhatsAppCloudApi\Models\Message as MessageModel;
+
 final class Message
 {
     /**
@@ -17,8 +20,14 @@ final class Message
         $this->message = $message;
     }
 
-    public function save()
+    /**
+     * Saves notification on database.
+     */
+    protected function saveModel(): void
     {
-
+        MessageModel::create([
+            'type' => MessageType::Text,
+            'data' => $this->message,
+        ]);
     }
 }

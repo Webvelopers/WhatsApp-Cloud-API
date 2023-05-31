@@ -2,8 +2,8 @@
 
 namespace Webvelopers\WhatsAppCloudApi\Notifications;
 
-use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
-use Webvelopers\WhatsAppCloudApi\Models\Webhook;
+use Webvelopers\WhatsAppCloudApi\Enums\NotificationType;
+use Webvelopers\WhatsAppCloudApi\Models\Notification as NotificationModel;
 
 final class Notification
 {
@@ -11,6 +11,8 @@ final class Notification
      * Notification.
      */
     protected array $notification;
+
+    private bool $set;
 
     /**
      * Instances of Class.
@@ -20,13 +22,29 @@ final class Notification
         $this->notification = $notification;
     }
 
+    /**
+     * Sets Notification.
+     */
     public function set(): bool
     {
-        Webhook::create([
-            'type' => WebhookType::Notification,
+        $this->saveModel();
+
+        return $this->set;
+    }
+
+    /**
+     * Saves notification on database.
+     */
+    protected function saveModel(): void
+    {
+        NotificationModel::create([
+            'type' => NotificationType::Notification,
             'data' => $this->notification,
         ]);
+    }
 
-        return true;
+    protected function setMessage()
+    {
+
     }
 }
