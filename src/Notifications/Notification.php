@@ -27,20 +27,27 @@ final class Notification
      */
     public function set(): bool
     {
-        $this->saveModel();
-
-        return $this->set;
+        return $this->saveModel();
     }
 
     /**
      * Saves notification on database.
      */
-    protected function saveModel(): void
+    protected function saveModel(): bool
     {
-        NotificationModel::create([
-            'type' => NotificationType::Notification,
+        if ($this->notification['error'] !== [])
+            $type = NotificationType::Error;
+        if ($this->notification['status'] !== [])
+            $type = NotificationType::Status;
+        if ($this->notification['message'] !== [])
+            $type = NotificationType::Message;
+
+        $notification = NotificationModel::create([
+            'type' => $type,
             'data' => $this->notification,
         ]);
+
+        return $notification->wasRecentlyCreated;
     }
 
     protected function setMessage()

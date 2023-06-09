@@ -5,6 +5,8 @@ namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 use \DateTimeImmutable as DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
+use Webvelopers\WhatsAppCloudApi\Models\Webhook as WebhookModel;
 use Webvelopers\WhatsAppCloudApi\Notifications\Notification;
 
 final class NotificationRequest
@@ -40,10 +42,13 @@ final class NotificationRequest
      */
     public function create(): JsonResponse
     {
-        Log::info(json_encode($this->payload, true));
+        //Log::info(json_encode($this->payload, true));
 
         if (!$this->validate())
             return response()->json(['error' => __('Invalid payload')], 400);
+
+        if (!$this->setWebhook())
+            return response()->json(['error' => __('Invalid saved webhook on database')], 400);
 
         if (!$this->setNotification())
             return response()->json(['error' => __('Invalid notification')], 400);
@@ -93,16 +98,19 @@ final class NotificationRequest
             return false;
         if ('messages' !== $this->payload['entry'][0]['changes'][0]['field'])
             return false;
+
         // value
         if (!array_key_exists('value', $this->payload['entry'][0]['changes'][0]))
             return false;
         if (!is_array($this->payload['entry'][0]['changes'][0]['value']))
             return false;
+
         // messaging_product
         if (!array_key_exists('messaging_product', $this->payload['entry'][0]['changes'][0]['value']))
             return false;
         if ('whatsapp' !== $this->payload['entry'][0]['changes'][0]['value']['messaging_product'])
             return false;
+
         // metadata
         if (!array_key_exists('metadata', $this->payload['entry'][0]['changes'][0]['value']))
             return false;
@@ -120,6 +128,20 @@ final class NotificationRequest
             return false;
 
         return true;
+    }
+
+
+    /**
+     *
+     */
+    private function setWebhook(): bool
+    {
+        $webhook = WebhookModel::create([
+            'type' => WebhookType::Notification,
+            'data' => $this->payload,
+        ]);
+
+        return $webhook->wasRecentlyCreated;
     }
 
     /**
