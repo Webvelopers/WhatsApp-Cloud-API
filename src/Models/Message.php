@@ -5,6 +5,7 @@ namespace Webvelopers\WhatsAppCloudApi\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webvelopers\WhatsAppCloudApi\Enums\MessageType;
 
 class Message extends Model
@@ -24,7 +25,7 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'notification',
+        'notification_id',
         'wam_id',
         'from',
         'timestamp',
@@ -68,5 +69,13 @@ class Message extends Model
             get: fn ($value) => json_decode($value, true),
             set: fn ($value) => json_encode($value),
         );
+    }
+
+    /**
+     * Notification Belongs to webhook.
+     */
+    public function notification(): BelongsTo
+    {
+        return $this->belongsTo(Notification::class);
     }
 }
