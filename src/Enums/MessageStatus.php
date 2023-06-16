@@ -22,7 +22,7 @@ enum MessageStatus: string
     /**
      * Deleted message.
      */
-    case Deleted = 'deleted'; // error code 131051.
+    case Deleted = 'deleted';
 
     /**
      * Failed message.
