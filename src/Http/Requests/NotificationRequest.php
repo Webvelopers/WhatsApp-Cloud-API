@@ -31,10 +31,10 @@ final class NotificationRequest
      */
     public function __construct(array $payload)
     {
-        $this->payload = $payload;
-
         $this->whatsapp_business_account_id = env('WHATSAPP_CLOUD_API_BUSINESS_ACCOUNT_ID');
         $this->phone_number_id = env('WHATSAPP_CLOUD_API_PHONE_NUMBER_ID');
+
+        $this->payload = $payload;
     }
 
     /**

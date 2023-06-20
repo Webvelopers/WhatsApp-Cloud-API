@@ -3,9 +3,12 @@
 namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 
 use Illuminate\Http\Response;
-use Webvelopers\WhatsAppCloudApi\Support\Challenge;
-use Webvelopers\WhatsAppCloudApi\Models\Webhook;
+use Illuminate\Support\Str;
+use Ramsey\Uuid\UuidInterface as Uuid;
 use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
+use Webvelopers\WhatsAppCloudApi\Models\VerifyToken;
+use Webvelopers\WhatsAppCloudApi\Models\Webhook;
+use Webvelopers\WhatsAppCloudApi\Support\Challenge;
 
 final class VerifyTokenRequest
 {
@@ -39,12 +42,21 @@ final class VerifyTokenRequest
         $this->hub = $hub;
 
         if (!$this->validateHub())
-            return new Response(__('whatsapp.webhook.verify_token.hub_error'), 400);
+            return new Response(__('whatsapp.errors.webhook.verify_token.hub'), 400);
+
+        $webhook_id = $this->saveVerifyToken($this->saveWebhook());
+
+        if ($webhook_id === null)
+            return new Response(__('whatsapp.errors.webhook.verify_token.database'), 500);
 
         if ($this->hub_verify_token !== $this->verify_token)
             return new Response(Challenge::make(), 403);
 
-        $this->saveWebhook();
+        if (
+            VerifyToken::where('webhook_id', $webhook_id)
+            ->update(['validated_at' => now()]) === 0
+        )
+            return new Response(__('whatsapp.errors.webhook.verify_token.database'), 500);
 
         return new Response($this->hub_challenge, 200);
     }
@@ -77,11 +89,30 @@ final class VerifyTokenRequest
     /**
      * .
      */
-    private function saveWebhook(): void
+    private function saveWebhook(): ?int
     {
-        Webhook::create([
+        $webhook = Webhook::create([
             'type' => WebhookType::VerifyToken,
             'data' => $this->hub,
         ]);
+
+        return $webhook->id ?? null;
+    }
+
+    /**
+     * .
+     */
+    private function saveVerifyToken(int $webhook_id = null): ?int
+    {
+        if ($webhook_id === null)
+            return null;
+
+        $verify_token = VerifyToken::create([
+            'webhook_id' => $webhook_id,
+            'hub_challenge' => $this->hub_challenge,
+            'hub_verify_token' => $this->hub_verify_token,
+        ]);
+
+        return $verify_token->webhook->id ?? null;
     }
 }

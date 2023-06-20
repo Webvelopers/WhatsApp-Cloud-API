@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Ramsey\Uuid\UuidInterface as Uuid;
 use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
 
 class Webhook extends Model
@@ -45,6 +46,7 @@ class Webhook extends Model
      */
     protected $casts = [
         'type' => WebhookType::class,
+        'data' => 'array',
     ];
 
     /**
@@ -72,6 +74,14 @@ class Webhook extends Model
      */
     public function notification(): HasOne
     {
-        return $this->hasOne(Notification::class, 'webhook_id');
+        return $this->hasOne(Notification::class, 'webhook_id', 'id');
+    }
+
+    /**
+     * Webhook has one verify token.
+     */
+    public function verify_token(): HasOne
+    {
+        return $this->hasOne(VerifyToken::class, 'webhook_id', 'id');
     }
 }
