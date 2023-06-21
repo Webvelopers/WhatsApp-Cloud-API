@@ -14,7 +14,7 @@ class Webhook
      */
     public function verifyToken(array $hub, ?string $verify_token = null): Response
     {
-        return (new VerifyTokenRequest($verify_token))->validate($hub);
+        return (new VerifyTokenRequest($verify_token))->create($hub);
     }
 
     /**

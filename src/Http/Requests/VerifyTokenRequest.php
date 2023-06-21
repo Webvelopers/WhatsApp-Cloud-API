@@ -3,8 +3,6 @@
 namespace Webvelopers\WhatsAppCloudApi\Http\Requests;
 
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
-use Ramsey\Uuid\UuidInterface as Uuid;
 use Webvelopers\WhatsAppCloudApi\Enums\WebhookType;
 use Webvelopers\WhatsAppCloudApi\Models\VerifyToken;
 use Webvelopers\WhatsAppCloudApi\Models\Webhook;
@@ -37,14 +35,14 @@ final class VerifyTokenRequest
     /**
      * Validates challenge.
      */
-    public function validate(array $hub): Response
+    public function create(array $hub): Response
     {
         $this->hub = $hub;
 
-        if (!$this->validateHub())
+        if (!$this->validate())
             return new Response(__('whatsapp.errors.webhook.verify_token.hub'), 400);
 
-        $webhook_id = $this->saveVerifyToken($this->saveWebhook());
+        $webhook_id = $this->verifyToken($this->webhook());
 
         if ($webhook_id === null)
             return new Response(__('whatsapp.errors.webhook.verify_token.database'), 500);
@@ -64,7 +62,7 @@ final class VerifyTokenRequest
     /**
      * Validates verify token hub parameters.
      */
-    private function validateHub(): bool
+    private function validate(): bool
     {
         $mode = $this->hub['hub_mode'] ?? null;
         $challenge = $this->hub['hub_challenge'] ?? null;
@@ -73,14 +71,14 @@ final class VerifyTokenRequest
         if ($mode !== 'subscribe' || $mode === null || $challenge === null || $verify_token === null)
             return false;
 
-        $this->setHub($challenge, $verify_token);
+        $this->set($challenge, $verify_token);
         return true;
     }
 
     /**
      * Sets verify token hub parameters.
      */
-    private function setHub(string $challenge, string $verify_token): void
+    private function set(string $challenge, string $verify_token): void
     {
         $this->hub_challenge = $challenge;
         $this->hub_verify_token = $verify_token;
@@ -89,7 +87,7 @@ final class VerifyTokenRequest
     /**
      * .
      */
-    private function saveWebhook(): ?int
+    private function webhook(): ?int
     {
         $webhook = Webhook::create([
             'type' => WebhookType::VerifyToken,
@@ -102,7 +100,7 @@ final class VerifyTokenRequest
     /**
      * .
      */
-    private function saveVerifyToken(int $webhook_id = null): ?int
+    private function verifyToken(int $webhook_id = null): ?int
     {
         if ($webhook_id === null)
             return null;
